@@ -70,6 +70,17 @@ void Level::unload()
 	SDL_DestroyTexture(lvl_player.get_texture());
 	SDL_DestroyTexture(lvl_door.get_texture());
 
+	for(auto &lvl_pencil : lvl_pencils)
+	{
+		SDL_DestroyTexture(lvl_pencil.get_texture());
+	}
+
+	for(auto &lvl_spike : lvl_spikes)
+	{
+		SDL_DestroyTexture(lvl_spike.get_texture());
+	}
+
+
 	//Stop music
 	Mix_HaltMusic();
 	Mix_FreeMusic(lvl_music);
@@ -105,6 +116,7 @@ bool Level::load_map(string pMapFilepath)
 	string lvl_player_path = lvl_asset_path + "playersheet.png";
 	string lvl_door_path = lvl_asset_path + "hole.png";
 	string lvl_pencil_path = lvl_asset_path + "pencil.png";
+	string lvl_spike_path = lvl_asset_path + "spike.png";
 
 	ifstream lvl_file(pMapFilepath);
 
@@ -131,9 +143,17 @@ bool Level::load_map(string pMapFilepath)
 						has_door = true;
 						lvl_door = Door(lvl_door_path, col_idx, line_idx);
 						break;
+					case 'S': //Spike
+						{
+							Spike lvl_spike = Spike(lvl_spike_path, col_idx, line_idx);
+							lvl_spikes.push_back(lvl_spike);
+						}
+						break;
 					case 'C': //Crayon
-						Pencil lvl_pencil = Pencil(lvl_pencil_path, col_idx, line_idx);
-						lvl_pencils.push_back(lvl_pencil);
+						{
+							Pencil lvl_pencil = Pencil(lvl_pencil_path, col_idx, line_idx);
+							lvl_pencils.push_back(lvl_pencil);
+						}
 						break;
 				}
 				col_idx++;
@@ -191,6 +211,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 		}
 	}
 
+	for(auto &lvl_spike : lvl_spikes)
+	{
+		if(!lvl_spike.init_texture(pRenderer))
+		{
+			cerr << "Invalid spike texture" << endl;
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		cerr << "Invalid door texture" << endl;
@@ -226,6 +255,25 @@ bool Level::check_ground_collision()
 	return false;
 }
 
+//Check collisions with dangerous things
+bool Level::check_danger_collision()
+{
+	//Check pencils
+	for(auto &lvl_spike : lvl_spikes)
+	{
+		if(SDL_HasIntersection(lvl_player.get_rect(), lvl_spike.get_rect()))
+		{
+			return true;			
+		}
+	}
+
+	//TODO Check with plantivore
+	//TODO Check with ghost
+	//TODO Check with arachne
+
+	return false;
+}
+
 bool Level::check_door_collision()
 {
 	SDL_Rect* lRect = lvl_door.get_rect();
@@ -251,6 +299,11 @@ bool Level::render(SDL_Renderer* pRenderer)
 		lvl_pencil.render(pRenderer);
 	}
 
+	for(auto &lvl_spike : lvl_spikes)
+	{
+		lvl_spike.render(pRenderer);
+	}
+
 	lvl_door.render(pRenderer);
 
 	current_time = SDL_GetTicks();
@@ -266,7 +319,23 @@ bool Level::render(SDL_Renderer* pRenderer)
 		}
 		next_fall_down = current_time + 80;
 	}
+
+	if(current_time > next_spikes_update)
+	{
+		for(auto &lvl_spike : lvl_spikes)
+		{
+			lvl_spike.switch_spikes();
+		}
 	
+		next_spikes_update = current_time + 210;
+	}
+	
+	//Check if the player collides with dangerous things
+	if(check_danger_collision())
+	{
+		return false;
+	}
+
 	//Check if the player is in front of the door
 	if(check_door_collision())
 	{
@@ -287,22 +356,38 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	mouse_rect.x = pMouseX;
 	mouse_rect.y = pMouseY;
 	
-	//Just a test with the ground but will only be possible with different monsters or dangers
+	//Test the ground
 	int cpt = 0;
-	int ground_removal_id = -1;
+	int removal_id = -1;
 	for(auto lGroundRect : lvl_ground)
 	{
 		if(SDL_HasIntersection(&mouse_rect, &lGroundRect))
 		{
-			ground_removal_id = cpt;			
+			removal_id = cpt;			
 		}
 		cpt++;
 	}
 
-	if(ground_removal_id > -1)
+	if(removal_id > -1)
 	{
-		lvl_ground.erase(lvl_ground.begin() + ground_removal_id);
+		lvl_ground.erase(lvl_ground.begin() + removal_id);
 		return true;	
+	}
+
+	//Test the spikes
+	cpt = 0;
+	for(auto &lvl_spike : lvl_spikes)
+	{
+		if(SDL_HasIntersection(&mouse_rect, lvl_spike.get_rect()))
+		{
+			removal_id = cpt;			
+		}
+		cpt++;
+	}
+
+	if(removal_id > -1)
+	{
+		lvl_spikes.erase(lvl_spikes.begin() + removal_id);
 	}
 
 	return false;

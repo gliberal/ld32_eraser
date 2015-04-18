@@ -20,6 +20,7 @@
 #include "player.h"
 #include "door.h"
 #include "pencil.h"
+#include "spike.h"
 
 using namespace std;
 
@@ -28,7 +29,8 @@ class Level
 	private:
 		int current_time{0};
 		int next_fall_down{0};
-		
+		int next_spikes_update{0};
+
 		string lvl_map_path;
 		string lvl_asset_path;
 
@@ -46,6 +48,7 @@ class Level
 		Door lvl_door;
 
 		vector<Pencil> lvl_pencils;
+		vector<Spike> lvl_spikes;
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* lvl_beep;
@@ -94,6 +97,9 @@ class Level
 
 		//Check for collision with a given SDL_Rect
 		bool check_ground_collision();
+
+		//Check collisions with dangerous things
+		bool check_danger_collision();
 
 		//Check for collision between player_rect and door
 		bool check_door_collision();
