@@ -19,6 +19,7 @@
 #include "position.h"
 #include "player.h"
 #include "door.h"
+#include "pencil.h"
 
 using namespace std;
 
@@ -43,6 +44,8 @@ class Level
 
 		Player lvl_player;
 		Door lvl_door;
+
+		vector<Pencil> lvl_pencils;
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* lvl_beep;
@@ -99,7 +102,7 @@ class Level
 		bool render(SDL_Renderer* pRenderer);
 
 		//Erase everything under the eraser
-		void erase_under(int pMouseX, int pMouseY);
+		bool erase_under(int pMouseX, int pMouseY);
 
 		//event catcher
 		void on_event(SDL_Event* pEvent);

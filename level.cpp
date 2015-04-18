@@ -104,7 +104,8 @@ bool Level::load_map(string pMapFilepath)
 
 	string lvl_player_path = lvl_asset_path + "playersheet.png";
 	string lvl_door_path = lvl_asset_path + "hole.png";
-	
+	string lvl_pencil_path = lvl_asset_path + "pencil.png";
+
 	ifstream lvl_file(pMapFilepath);
 
 	if(lvl_file.is_open())
@@ -119,16 +120,20 @@ bool Level::load_map(string pMapFilepath)
 			{
 				switch(lChar)
 				{
-					case '*':
+					case '*': //Ground
 						add_rect(col_idx, line_idx);
 						break;
-					case 'P':
+					case 'P': //Player
 						has_player = true;
 						lvl_player = Player(lvl_player_path, col_idx, line_idx);
 						break;
-					case 'D':
+					case 'D': //Door
 						has_door = true;
 						lvl_door = Door(lvl_door_path, col_idx, line_idx);
+						break;
+					case 'C': //Crayon
+						Pencil lvl_pencil = Pencil(lvl_pencil_path, col_idx, line_idx);
+						lvl_pencils.push_back(lvl_pencil);
 						break;
 				}
 				col_idx++;
@@ -177,6 +182,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	}
 	SDL_FreeSurface(ground_image);
 
+	for(auto &lvl_pencil : lvl_pencils)
+	{
+		if(!lvl_pencil.init_texture(pRenderer))
+		{
+			cerr << "Invalid pencil texture" << endl;
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		cerr << "Invalid door texture" << endl;
@@ -185,7 +199,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 
 	if(!lvl_player.init_texture(pRenderer))
 	{
-		cerr << "Invalid coco texture" << endl;
+		cerr << "Invalid player texture" << endl;
 		return false;
 	}
 
@@ -232,6 +246,11 @@ bool Level::render(SDL_Renderer* pRenderer)
 		SDL_RenderCopy(pRenderer, ground_texture, &sprite_rect, &lGroundRect);
 	}
 
+	for(auto &lvl_pencil : lvl_pencils)
+	{
+		lvl_pencil.render(pRenderer);
+	}
+
 	lvl_door.render(pRenderer);
 
 	current_time = SDL_GetTicks();
@@ -259,7 +278,7 @@ bool Level::render(SDL_Renderer* pRenderer)
 }
 
 //Erase everything under the eraser
-void Level::erase_under(int pMouseX, int pMouseY)
+bool Level::erase_under(int pMouseX, int pMouseY)
 {
 	//Create a rect from the mouse coordinates
 	SDL_Rect mouse_rect;
@@ -282,8 +301,11 @@ void Level::erase_under(int pMouseX, int pMouseY)
 
 	if(ground_removal_id > -1)
 	{
-		lvl_ground.erase(lvl_ground.begin() + ground_removal_id);	
+		lvl_ground.erase(lvl_ground.begin() + ground_removal_id);
+		return true;	
 	}
+
+	return false;
 }
 
 //Handle SDL events 
