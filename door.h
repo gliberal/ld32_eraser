@@ -30,8 +30,8 @@ class Door
 
 			door_image = IMG_Load(pDoorPath.c_str());
 
-			sprite_rect.w = 128;
-			sprite_rect.h = 128;
+			sprite_rect.w = 64;
+			sprite_rect.h = 126;
 			sprite_rect.x = 0;
 			sprite_rect.y = 0;
 
