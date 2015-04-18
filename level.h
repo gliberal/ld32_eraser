@@ -98,6 +98,9 @@ class Level
 		//Render the texture through given renderer
 		bool render(SDL_Renderer* pRenderer);
 
+		//Erase everything under the eraser
+		void erase_under(int pMouseX, int pMouseY);
+
 		//event catcher
 		void on_event(SDL_Event* pEvent);
 };

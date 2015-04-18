@@ -258,6 +258,34 @@ bool Level::render(SDL_Renderer* pRenderer)
 	return true;
 }
 
+//Erase everything under the eraser
+void Level::erase_under(int pMouseX, int pMouseY)
+{
+	//Create a rect from the mouse coordinates
+	SDL_Rect mouse_rect;
+	mouse_rect.w = 57;
+	mouse_rect.h = 39;
+	mouse_rect.x = pMouseX;
+	mouse_rect.y = pMouseY;
+	
+	//Just a test with the ground but will only be possible with different monsters or dangers
+	int cpt = 0;
+	int ground_removal_id = -1;
+	for(auto lGroundRect : lvl_ground)
+	{
+		if(SDL_HasIntersection(&mouse_rect, &lGroundRect))
+		{
+			ground_removal_id = cpt;			
+		}
+		cpt++;
+	}
+
+	if(ground_removal_id > -1)
+	{
+		lvl_ground.erase(lvl_ground.begin() + ground_removal_id);	
+	}
+}
+
 //Handle SDL events 
 void Level::on_event(SDL_Event* pEvent)
 {
@@ -292,6 +320,9 @@ void Level::on_event(SDL_Event* pEvent)
 					}
 					break;
 			}
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			erase_under(pEvent->motion.x, pEvent->motion.y);
 			break;
 	}
 }	
