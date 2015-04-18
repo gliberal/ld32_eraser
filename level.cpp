@@ -263,8 +263,8 @@ void Level::erase_under(int pMouseX, int pMouseY)
 {
 	//Create a rect from the mouse coordinates
 	SDL_Rect mouse_rect;
-	mouse_rect.w = 57;
-	mouse_rect.h = 39;
+	mouse_rect.w = 32;
+	mouse_rect.h = 32;
 	mouse_rect.x = pMouseX;
 	mouse_rect.y = pMouseY;
 	
