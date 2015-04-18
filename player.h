@@ -21,22 +21,21 @@ class Player
 	SDL_Texture* player_texture;
 	SDL_Rect sprite_rect;
 	SDL_Rect player_rect;
-	int player_dir;
+	int player_direction;
 	bool is_jump = false;	
 	bool is_dead = false;
 
 	public:
 		//Constant initialization
-		static const int LEFT_POS_0 = 3;
-		static const int LEFT_POS_1 = 2;
-		static const int RIGHT_POS_0 = 0;
-		static const int RIGHT_POS_1 = 1;
+		static const int POS_0 = 2;
+		static const int POS_1 = 1;
+		static const int POS_DEAD = 0;
 
 		static const int STEP_X = 64;
 		static const int STEP_Y = 64;
 		
-		static const int DIR_LEFT = 0;
-		static const int DIR_RIGHT = 1;
+		static const int LEFT = 0;
+		static const int RIGHT = 1;
 
 		//Constructors
 		Player(string pSpritePath="", int pX=0, int pY=0)
@@ -44,11 +43,11 @@ class Player
 			pos = Position(pX, pY);
 
 			player_image_path = pSpritePath;
-			player_dir = DIR_RIGHT;
+			player_direction = RIGHT;
 
-			sprite_rect.w = 26;
+			sprite_rect.w = 32;
 			sprite_rect.h = 64;
-			sprite_rect.x = 32 * RIGHT_POS_0;
+			sprite_rect.x = 32 * POS_0;
 			sprite_rect.y = 0;
 
 			player_rect.w = sprite_rect.w;

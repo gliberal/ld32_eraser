@@ -6,7 +6,7 @@ bool Player::init_texture(SDL_Renderer* pRenderer)
 	SDL_Surface* player_image = IMG_Load(player_image_path.c_str());
 	player_texture = SDL_CreateTextureFromSurface(pRenderer, player_image);
 	if(player_texture <= 0)
-	{
+	{	
 		return false;
 	}
 	SDL_FreeSurface(player_image);
@@ -16,7 +16,14 @@ bool Player::init_texture(SDL_Renderer* pRenderer)
 //Render the texture through given renderer
 void Player::render(SDL_Renderer* pRenderer)
 {
-	SDL_RenderCopy(pRenderer, player_texture, &sprite_rect, &player_rect);
+	if(player_direction == LEFT)
+	{
+		SDL_RenderCopy(pRenderer, player_texture, &sprite_rect, &player_rect);
+	}
+	else
+	{
+		SDL_RenderCopyEx(pRenderer, player_texture, &sprite_rect, &player_rect, 0, nullptr, SDL_FLIP_HORIZONTAL);
+	}
 }
 
 //Set player position to the given one
@@ -32,29 +39,24 @@ void Player::move_x(int step=1)
 {
 	pos.set_x(pos.get_x()+step);
 
-	//TODO update with Zoe infos
-	//Update player sprite
+	//Update player direction
 	if(step < 0)
 	{
-		if(sprite_rect.x == 32*LEFT_POS_0)
-		{
-			sprite_rect.x = 32*LEFT_POS_1;
-		}
-		else
-		{
-			sprite_rect.x = 32*LEFT_POS_0;
-		}
+		player_direction = LEFT;
 	}
 	else
 	{
-		if(sprite_rect.x == 32*RIGHT_POS_0)
-		{
-			sprite_rect.x = 32*RIGHT_POS_1;
-		}
-		else
-		{
-			sprite_rect.x = 32*RIGHT_POS_0;
-		}
+		player_direction = RIGHT;
+	}
+
+	//Update player sprite
+	if(sprite_rect.x == 32*POS_0)
+	{
+		sprite_rect.x = 32*POS_1;
+	}
+	else
+	{
+		sprite_rect.x = 32*POS_0;
 	}
 
 	//Update player_rect with updated X
