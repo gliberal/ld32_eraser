@@ -36,14 +36,13 @@ bool Level::load(SDL_Renderer* pRenderer)
 		return false;
 	}
 
-	//TODO Zoe works on the music
 	//Initialize the music
-	//lvl_music = Mix_LoadMUS((lvl_asset_path + "sfx/music.ogg").c_str());
-	//if(!lvl_music)
-	//{
-	//	cerr << "Cannot load music" << endl;
-	//	return false;
-	//}
+	lvl_music = Mix_LoadMUS((lvl_asset_path + "sfx/music.ogg").c_str());
+	if(!lvl_music)
+	{
+		cerr << "Cannot load music" << endl;
+		return false;
+	}
 
 	//Initialize the beep sound
 	lvl_beep = Mix_LoadWAV((lvl_asset_path + "sfx/eraser.wav").c_str());
@@ -57,7 +56,7 @@ bool Level::load(SDL_Renderer* pRenderer)
 	is_load = true;
 
 	//Play background music
-	//play_bg_music();
+	play_bg_music();
 
 	return true;
 }
@@ -90,7 +89,7 @@ void Level::add_rect(int pX, int pY)
 {
 	SDL_Rect tmp_rect;
 	tmp_rect.w = 64;
-	tmp_rect.h = 64;
+	tmp_rect.h = 16;
 	tmp_rect.x = pX * 64;
 	tmp_rect.y = pY * 64;
 
