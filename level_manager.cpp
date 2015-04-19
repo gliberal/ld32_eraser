@@ -20,7 +20,7 @@ bool LevelManager::load_index(SDL_Renderer* pRenderer, string pPath)
 		string line;
 		while(getline(index_file, line))
 		{
-			load_level(line);
+			level_ids.push_back(line);
 		}	
 		index_file.close();	
 	}
@@ -29,85 +29,74 @@ bool LevelManager::load_index(SDL_Renderer* pRenderer, string pPath)
 		return false;
 	}
 
-	if(!levels[current_level].load(pRenderer))
-	{
-		std::cerr << "Cannot load bad level" << std::endl;
-		return false;
-	}
-
 	return true;	
-}
-
-//Load the level description file and creates a Level
-void LevelManager::load_level(std::string pId)
-{
-	std::string lvl_map = level_data_path + pId + "/" + LEVEL_MAP_FILENAME;
-	levels.push_back(Level(lvl_map, level_asset_path));
 }
 
 //Display the current level
 bool LevelManager::display(SDL_Renderer* pRenderer)
 {
-	if(!levels[current_level].is_loaded())
+	if(current_level_id > -1)
 	{
-		levels[current_level].load(pRenderer);
-	}
-	else
-	{
-		if(levels[current_level].is_finished())
+		if(current_level.is_finished())
 		{
+			//Load next level
 			if(!prepare_next_level(pRenderer))
 			{
-				reset_progress();
+				current_level_id = -1;
 				return false;
 			}
 		}
 	}
-
-	if(!levels[current_level].render(pRenderer))
+	else
 	{
-		reset_progress();
+		//Load the first level
+		if(!prepare_next_level(pRenderer))
+		{
+			current_level_id = -1;
+			return false;
+		}
+	}
+
+	if(!current_level.render(pRenderer))
+	{
+		current_level.unload();
+		current_level_id = -1;
 		return false;
 	}
 
 	return true;
 }
 
-//Reset played levels
-void LevelManager::reset_progress()
-{
-	for(int l=0; l<=current_level; l++)
-	{
-		levels[l].unfinish();
-		levels[l].unload();
-	}
-
-	current_level = 0;
-}
-
 //Start the next level and return it
 bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 {
-	int lvl_ind{0};
-	for(auto &lvl : levels)
+	if(current_level_id > -1)
 	{
-		if(!lvl.is_finished())
-		{
-			if(!lvl.load(pRenderer))
-			{
-				return false;
-			}
-			current_level = lvl_ind;
-
-			return true;
-		}
-		lvl_ind++;
+		std::cout << "Unloading previous level" << std::endl;
+		current_level.unload();
 	}
-	return false;
+	
+	current_level_id++;
+	if(current_level_id == (int)level_ids.size())
+	{
+		return false;
+	}
+	std::string lvl_map = level_data_path + level_ids[current_level_id] + "/" + LEVEL_MAP_FILENAME;
+	current_level = Level(lvl_map, level_asset_path);
+
+	if(!current_level.load(pRenderer))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 //Event dispatcher
 void LevelManager::on_event(SDL_Event* pEvent)
 {
-	levels[current_level].on_event(pEvent);
+	if(current_level_id > -1)
+	{
+		current_level.on_event(pEvent);
+	}
 }

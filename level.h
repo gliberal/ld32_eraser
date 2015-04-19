@@ -57,8 +57,7 @@ class Level
 		vector<Arachne> lvl_arachnes;
 
 		Mix_Music* lvl_music;
-		Mix_Chunk* lvl_beep;
-		Mix_Chunk* lvl_door_open;
+		Mix_Chunk* sfx_eraser;
 
 		//Add rect to lvl_ground vector
 		void add_rect(int pX, int pY);
@@ -74,6 +73,7 @@ class Level
 
 	public:
 		//Constructor
+		Level(){};
 		Level(string pMapPath, string pAssetPath)
 		{
 			lvl_map_path = pMapPath;

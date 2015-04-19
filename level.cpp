@@ -45,13 +45,13 @@ bool Level::load(SDL_Renderer* pRenderer)
 	}
 
 	//Initialize the beep sound
-	lvl_beep = Mix_LoadWAV((lvl_asset_path + "sfx/eraser.wav").c_str());
-	if(lvl_beep == nullptr)
+	sfx_eraser = Mix_LoadWAV((lvl_asset_path + "sfx/eraser.wav").c_str());
+	if(sfx_eraser == nullptr)
 	{
 		cerr << "Cannot load sounds" << endl;  
 		return false;
 	}
-	Mix_VolumeChunk(lvl_beep, 60);
+	Mix_VolumeChunk(sfx_eraser, 60);
 
 	is_load = true;
 
@@ -96,8 +96,7 @@ void Level::unload()
 	Mix_FreeMusic(lvl_music);
 
 	//Free sounds
-	Mix_FreeChunk(lvl_beep);
-	Mix_FreeChunk(lvl_door_open);
+	Mix_FreeChunk(sfx_eraser);
 
 	lvl_ground.clear();
 	lvl_player.reborn();
@@ -282,7 +281,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 void Level::play_bg_music()
 {
 	Mix_PlayMusic(lvl_music, -1);
-	Mix_VolumeMusic(30);
+	Mix_VolumeMusic(20);
 }
 
 //Check for collision with a given SDL_Rect
@@ -556,7 +555,11 @@ void Level::on_event(SDL_Event* pEvent)
 			}
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			erase_under(pEvent->motion.x, pEvent->motion.y);
+			if(erase_under(pEvent->motion.x, pEvent->motion.y))
+			{
+				//Play sound only if something erasable is under the eraser
+				Mix_PlayChannel(-1, sfx_eraser, 0); 
+			}
 			break;
 	}
 }	

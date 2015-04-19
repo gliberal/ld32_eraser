@@ -13,7 +13,6 @@ class LevelManager
 {
 	private:
 		const string INDEX_FILENAME = "lvl_index";
-		const string LEVEL_DESC_FILENAME = "lvl_desc";
 		const string LEVEL_MAP_FILENAME = "lvl_map";
 
 		string level_base_path;
@@ -21,8 +20,9 @@ class LevelManager
 		string level_asset_path;
 		string index_path;
 
-		vector<Level> levels;
-		int current_level = 0;
+		vector<string> level_ids;
+		Level current_level;
+		int current_level_id{-1};
 
 		//initialize paths
 		void init_paths(string pPath);
@@ -39,14 +39,8 @@ class LevelManager
 		//Load the lvl_index file
 		bool load_index(SDL_Renderer* pRenderer, string pPath);
 
-		//Load level and add it to levels vector
-		void load_level(string pLevelDescPath);
-
 		//Display the current level
 		bool display(SDL_Renderer* pRenderer);
-
-		//Reset progression
-		void reset_progress();
 
 		//Event dispatcher
 		void on_event(SDL_Event* pEvent);	
