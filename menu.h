@@ -22,9 +22,6 @@ class Menu
 		MenuButton bt_start;
 		MenuButton bt_exit;
 
-		int mouse_x{0};
-		int mouse_y{0};
-
 	public:
 		static const int REQUIRE_NOTHING = 0;
 		static const int REQUIRE_PLAY = 1;
