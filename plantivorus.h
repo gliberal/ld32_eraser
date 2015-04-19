@@ -21,25 +21,20 @@ class Plantivorus
 		SDL_Texture* plantivorus_texture;
 		SDL_Rect sprite_rect;
 		SDL_Rect plantivorus_rect;
-		int current_direction;
 
 	public:
 		static const int POS_0 = 0;
 		static const int POS_1 = 64;
 		static const int POS_2 = 128;
 
-		static const int LEFT = 0;
-		static const int RIGHT = 1;
-
 		//Constructor
 		Plantivorus(string pPlantPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
-			current_direction = RIGHT;
 
 			plantivorus_image = IMG_Load(pPlantPath.c_str());
 
-			sprite_rect.w = 64;
+			sprite_rect.w = 96;
 			sprite_rect.h = 64;
 			sprite_rect.x = 0;
 			sprite_rect.y = 0;
