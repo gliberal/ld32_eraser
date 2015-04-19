@@ -26,6 +26,7 @@
 #include "plantivorus.h"
 #include "arachne.h"
 #include "ghost.h"
+#include "monster.h"
 
 using namespace std;
 
@@ -39,6 +40,7 @@ class Level
 		int next_spikes_update{0};
 		int next_plants_update{0};
 		int next_arachnes_update{0};
+		int next_monster_move{0};
 
 		string lvl_map_path;
 		string lvl_asset_path;
@@ -67,6 +69,7 @@ class Level
 		vector<Plantivorus> lvl_plants;
 		vector<Arachne> lvl_arachnes;
 		vector<Ghost> lvl_ghosts;
+		vector<Monster> lvl_monsters;
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* sfx_eraser;
