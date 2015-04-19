@@ -21,6 +21,7 @@
 #include "door.h"
 #include "pencil.h"
 #include "spike.h"
+#include "plantivorus.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ class Level
 		int current_time{0};
 		int next_fall_down{0};
 		int next_spikes_update{0};
+		int next_plants_update{0};
 
 		string lvl_map_path;
 		string lvl_asset_path;
@@ -49,6 +51,7 @@ class Level
 
 		vector<Pencil> lvl_pencils;
 		vector<Spike> lvl_spikes;
+		vector<Plantivorus> lvl_plants;
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* lvl_beep;

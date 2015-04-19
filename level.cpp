@@ -80,6 +80,10 @@ void Level::unload()
 		SDL_DestroyTexture(lvl_spike.get_texture());
 	}
 
+	for(auto &lvl_plant : lvl_plants)
+	{
+		SDL_DestroyTexture(lvl_plant.get_texture());
+	}
 
 	//Stop music
 	Mix_HaltMusic();
@@ -117,6 +121,7 @@ bool Level::load_map(string pMapFilepath)
 	string lvl_door_path = lvl_asset_path + "hole.png";
 	string lvl_pencil_path = lvl_asset_path + "pencil.png";
 	string lvl_spike_path = lvl_asset_path + "spike.png";
+	string lvl_plant_path = lvl_asset_path + "plant.png";
 
 	ifstream lvl_file(pMapFilepath);
 
@@ -147,6 +152,13 @@ bool Level::load_map(string pMapFilepath)
 						{
 							Spike lvl_spike = Spike(lvl_spike_path, col_idx, line_idx);
 							lvl_spikes.push_back(lvl_spike);
+						}
+						break;
+					case 'F': //Fleur
+						{
+							Plantivorus lvl_plant = Plantivorus(lvl_plant_path, col_idx, line_idx);
+							lvl_plants.push_back(lvl_plant);
+
 						}
 						break;
 					case 'C': //Crayon
@@ -220,6 +232,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 		}
 	}
 
+	for(auto &lvl_plant : lvl_plants)
+	{
+		if(!lvl_plant.init_texture(pRenderer))
+		{
+			cerr << "Invalid plantivorus texture" << endl;
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		cerr << "Invalid door texture" << endl;
@@ -267,7 +288,15 @@ bool Level::check_danger_collision()
 		}
 	}
 
-	//TODO Check with plantivore
+	//Check with plantivorus
+	for(auto &lvl_plant : lvl_plants)
+	{
+		if(SDL_HasIntersection(lvl_player.get_rect(), lvl_plant.get_rect()))
+		{
+			return true;			
+		}
+	}
+
 	//TODO Check with ghost
 	//TODO Check with arachne
 
@@ -304,6 +333,11 @@ bool Level::render(SDL_Renderer* pRenderer)
 		lvl_spike.render(pRenderer);
 	}
 
+	for(auto &lvl_plant : lvl_plants)
+	{
+		lvl_plant.render(pRenderer);
+	}
+
 	lvl_door.render(pRenderer);
 
 	current_time = SDL_GetTicks();
@@ -329,6 +363,17 @@ bool Level::render(SDL_Renderer* pRenderer)
 	
 		next_spikes_update = current_time + 210;
 	}
+
+	if(current_time > next_plants_update)
+	{
+		for(auto &lvl_plant : lvl_plants)
+		{
+			lvl_plant.switch_position();
+		}
+	
+		next_plants_update = current_time + 420;
+	}
+
 	
 	//Check if the player collides with dangerous things
 	if(check_danger_collision())
@@ -389,6 +434,23 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	{
 		lvl_spikes.erase(lvl_spikes.begin() + removal_id);
 	}
+
+	//Test the plantivorus
+	cpt = 0;
+	for(auto &lvl_plant : lvl_plants)
+	{
+		if(SDL_HasIntersection(&mouse_rect, lvl_plant.get_rect()))
+		{
+			removal_id = cpt;			
+		}
+		cpt++;
+	}
+
+	if(removal_id > -1)
+	{
+		lvl_plants.erase(lvl_plants.begin() + removal_id);
+	}
+
 
 	return false;
 }
