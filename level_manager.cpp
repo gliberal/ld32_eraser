@@ -108,7 +108,7 @@ void LevelManager::display_happy_ending(SDL_Renderer* pRenderer)
 		SDL_RenderPresent(pRenderer);
 
 		//Slow down cycles
-		SDL_Delay(200);
+		SDL_Delay(2000);
 	}
 }
 
