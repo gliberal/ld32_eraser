@@ -5,7 +5,7 @@
 bool Level::load(SDL_Renderer* pRenderer)
 {
 	//Initialize the background image	
-	bg_image = IMG_Load((lvl_asset_path + "bg.png").c_str());
+	bg_image = IMG_Load((lvl_bg_path).c_str());
 
 	txt_font = TTF_OpenFont((lvl_asset_path + "ThinPencilHandwriting.ttf").c_str(), 40);
 	if(!txt_font)

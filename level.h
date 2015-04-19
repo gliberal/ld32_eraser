@@ -42,6 +42,7 @@ class Level
 		int next_arachnes_update{0};
 		int next_monster_move{0};
 
+		string lvl_bg_path;
 		string lvl_map_path;
 		string lvl_asset_path;
 
@@ -90,10 +91,22 @@ class Level
 	public:
 		//Constructor
 		Level(){};
-		Level(string pMapPath, string pAssetPath)
+
+		Level(string pMapPath, string pBgPath, string pAssetPath)
 		{
 			lvl_map_path = pMapPath;
 			lvl_asset_path = pAssetPath;
+			
+			ifstream bg_file(pBgPath);		
+			if(bg_file.is_open())
+			{
+				lvl_bg_path = pBgPath;
+				bg_file.close();
+			}
+			else
+			{
+				lvl_bg_path = pAssetPath + "bg.png";
+			}
 		}
 
 		//Load the level

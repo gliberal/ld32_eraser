@@ -14,6 +14,7 @@ class LevelManager
 	private:
 		const string INDEX_FILENAME = "lvl_index";
 		const string LEVEL_MAP_FILENAME = "lvl_map";
+		const string LEVEL_BG_FILENAME = "bg.png";
 
 		string level_base_path;
 		string level_data_path;

@@ -82,7 +82,8 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 		return false;
 	}
 	std::string lvl_map = level_data_path + level_ids[current_level_id] + "/" + LEVEL_MAP_FILENAME;
-	current_level = Level(lvl_map, level_asset_path);
+	std::string lvl_bg_path = level_data_path + level_ids[current_level_id] + "/" + LEVEL_BG_FILENAME;
+	current_level = Level(lvl_map, lvl_bg_path, level_asset_path);
 
 	if(!current_level.load(pRenderer))
 	{
