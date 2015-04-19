@@ -68,6 +68,15 @@ bool Level::load(SDL_Renderer* pRenderer)
 	}
 	Mix_VolumeChunk(sfx_die_splash, 20);
 
+	//Initialize get time sound
+	sfx_get_time = Mix_LoadWAV((lvl_asset_path + "sfx/timer.wav").c_str());
+	if(sfx_get_time == nullptr)
+	{
+		cerr << "Cannot load sound get time" << endl;  
+		return false;
+	}
+	Mix_VolumeChunk(sfx_get_time, 20);
+
 	is_load = true;
 
 	//Play background music
@@ -127,6 +136,7 @@ void Level::unload()
 	//Free sounds
 	Mix_FreeChunk(sfx_eraser);
 	Mix_FreeChunk(sfx_die_splash);
+	Mix_FreeChunk(sfx_get_time);
 
 	TTF_CloseFont(txt_font);
 	SDL_DestroyTexture(timer_texture);
@@ -629,6 +639,9 @@ bool Level::render(SDL_Renderer* pRenderer)
 	int tbonus_idx = check_time_bonus_collision();
 	if(tbonus_idx > -1)
 	{
+		//Play tic-tac sound
+		Mix_PlayChannel(-1, sfx_get_time, 0); 
+
 		lvl_tbonuses.erase(lvl_tbonuses.begin() + tbonus_idx);
 		
 		available_time = available_time + TIME_BONUS_VALUE;
