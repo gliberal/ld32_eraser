@@ -480,6 +480,7 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	if(removal_id > -1)
 	{
 		lvl_spikes.erase(lvl_spikes.begin() + removal_id);
+		return true;
 	}
 
 	//Test the plantivorus
@@ -496,6 +497,7 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	if(removal_id > -1)
 	{
 		lvl_plants.erase(lvl_plants.begin() + removal_id);
+		return true;
 	}
 
 	//Test arachnes
@@ -512,6 +514,7 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	if(removal_id > -1)
 	{
 		lvl_arachnes.erase(lvl_arachnes.begin() + removal_id);
+		return true;
 	}
 
 	return false;
