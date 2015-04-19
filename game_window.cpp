@@ -99,7 +99,19 @@ bool GameWindow::run()
 			on_event(&lEvent);
 			if(!is_playing)
 			{
-				is_playing = menu.check_event(&lEvent);
+				int val = menu.check_event(&lEvent);
+				switch(val)
+				{
+					case Menu::REQUIRE_NOTHING:
+						is_playing = false;
+						break;
+					case Menu::REQUIRE_PLAY:
+						is_playing = true;
+						break;
+					case Menu::REQUIRE_EXIT:
+						is_running = false;
+						break;
+				}
 			}
 			else
 			{
