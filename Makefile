@@ -3,7 +3,11 @@ CC = g++
 FLAGS = -Wall -std=c++11
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer 
 EXEC = eraser
-OBJ_FILES = main.o game_window.o menu.o mouse_cursor.o level_manager.o level.o player.o door.o pencil.o spike.o plantivorus.o position.o
+
+BASIC_OBJS = player.o menu.o door.o pencil.o mouse_cursor.o position.o
+COMPLEX_OBJS = game_window.o level_manager.o level.o
+DANGEROUS_OBJS = spike.o plantivorus.o arachne.o
+OBJ_FILES = main.o $(BASIC_OBJS) $(COMPLEX_OBJS) $(DANGEROUS_OBJS)
 
 #Define the ALL scope (default)
 all: clean game 
@@ -19,7 +23,7 @@ complex_components: dangerous_components
 	$(CC) -c $(FLAGS) game_window.cpp level_manager.cpp level.cpp
 
 dangerous_components: basic_components
-	$(CC) -c $(FLAGS) spike.cpp plantivorus.cpp
+	$(CC) -c $(FLAGS) spike.cpp plantivorus.cpp arachne.cpp
 
 basic_components: 
 	$(CC) -c $(FLAGS) player.cpp menu.cpp door.cpp pencil.cpp mouse_cursor.cpp position.cpp

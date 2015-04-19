@@ -85,6 +85,12 @@ void Level::unload()
 		SDL_DestroyTexture(lvl_plant.get_texture());
 	}
 
+	for(auto &lvl_arachne : lvl_arachnes)
+	{
+		SDL_DestroyTexture(lvl_arachne.get_texture());
+	}
+
+
 	//Stop music
 	Mix_HaltMusic();
 	Mix_FreeMusic(lvl_music);
@@ -122,6 +128,7 @@ bool Level::load_map(string pMapFilepath)
 	string lvl_pencil_path = lvl_asset_path + "pencil.png";
 	string lvl_spike_path = lvl_asset_path + "spike.png";
 	string lvl_plant_path = lvl_asset_path + "plant.png";
+	string lvl_arachne_path = lvl_asset_path + "arachne.png";
 
 	ifstream lvl_file(pMapFilepath);
 
@@ -147,6 +154,12 @@ bool Level::load_map(string pMapFilepath)
 					case 'D': //Door
 						has_door = true;
 						lvl_door = Door(lvl_door_path, col_idx, line_idx);
+						break;
+					case 'A': //Arachnee
+						{
+							Arachne lvl_arachne = Arachne(lvl_arachne_path, col_idx, line_idx);
+							lvl_arachnes.push_back(lvl_arachne);
+						}
 						break;
 					case 'S': //Spike
 						{
@@ -241,6 +254,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 		}
 	}
 
+	for(auto &lvl_arachne : lvl_arachnes)
+	{
+		if(!lvl_arachne.init_texture(pRenderer))
+		{
+			cerr << "Invalid arachne texture" << endl;
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		cerr << "Invalid door texture" << endl;
@@ -298,7 +320,17 @@ bool Level::check_danger_collision()
 	}
 
 	//TODO Check with ghost
-	//TODO Check with arachne
+	
+	//Check with arachne
+	for(auto &lvl_arachne : lvl_arachnes)
+	{
+		if(SDL_HasIntersection(lvl_player.get_rect(), lvl_arachne.get_rect()))
+		{
+			return true;			
+		}
+	}
+
+	//TODO Check with slime
 
 	return false;
 }
@@ -338,6 +370,11 @@ bool Level::render(SDL_Renderer* pRenderer)
 		lvl_plant.render(pRenderer);
 	}
 
+	for(auto &lvl_arachne : lvl_arachnes)
+	{
+		lvl_arachne.render(pRenderer);
+	}
+
 	lvl_door.render(pRenderer);
 
 	current_time = SDL_GetTicks();
@@ -371,7 +408,17 @@ bool Level::render(SDL_Renderer* pRenderer)
 			lvl_plant.switch_position();
 		}
 	
-		next_plants_update = current_time + 420;
+		next_plants_update = current_time + 1000;
+	}
+
+	if(current_time > next_arachnes_update)
+	{
+		for(auto &lvl_arachne : lvl_arachnes)
+		{
+			lvl_arachne.switch_position();
+		}
+	
+		next_arachnes_update = current_time + 600;
 	}
 
 	
@@ -451,6 +498,21 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 		lvl_plants.erase(lvl_plants.begin() + removal_id);
 	}
 
+	//Test arachnes
+	cpt = 0;
+	for(auto &lvl_arachne : lvl_arachnes)
+	{
+		if(SDL_HasIntersection(&mouse_rect, lvl_arachne.get_rect()))
+		{
+			removal_id = cpt;			
+		}
+		cpt++;
+	}
+
+	if(removal_id > -1)
+	{
+		lvl_arachnes.erase(lvl_arachnes.begin() + removal_id);
+	}
 
 	return false;
 }
