@@ -6,7 +6,13 @@ bool Level::load(SDL_Renderer* pRenderer)
 {
 	//Initialize the background image	
 	bg_image = IMG_Load((lvl_asset_path + "bg.png").c_str());
-	
+
+	txt_font = TTF_OpenFont((lvl_asset_path + "ThinPencilHandwriting.ttf").c_str(), 40);
+	if(!txt_font)
+	{
+		cerr << "Cannot load the font" << endl;
+	}
+
 	//Initialize the ground image
 	ground_image = IMG_Load((lvl_asset_path + "ground.png").c_str());
 
@@ -90,13 +96,15 @@ void Level::unload()
 		SDL_DestroyTexture(lvl_arachne.get_texture());
 	}
 
-
 	//Stop music
 	Mix_HaltMusic();
 	Mix_FreeMusic(lvl_music);
 
 	//Free sounds
 	Mix_FreeChunk(sfx_eraser);
+
+	TTF_CloseFont(txt_font);
+	SDL_DestroyTexture(timer_texture);
 
 	lvl_ground.clear();
 	lvl_player.reborn();
@@ -377,6 +385,42 @@ bool Level::render(SDL_Renderer* pRenderer)
 	lvl_door.render(pRenderer);
 
 	current_time = SDL_GetTicks();
+
+	if(start_time == -1)
+	{
+		start_time = current_time; 
+	}
+
+	if(current_time > next_time_refresh)
+	{
+		//(current_time - start_time) / 1000;
+		string current_txt = to_string((current_time - start_time) / 1000);
+		SDL_Surface* txt_image = TTF_RenderText_Blended_Wrapped(txt_font, current_txt.c_str(), txt_color, bg_rect.w - 5);
+		timer_texture = SDL_CreateTextureFromSurface(pRenderer, txt_image);
+		if(timer_texture <= 0)
+		{
+			return false;
+		}
+		SDL_FreeSurface(txt_image);
+
+		int lWidth{0};
+		int lHeight{0};
+		SDL_QueryTexture(timer_texture, nullptr, nullptr, &lWidth, &lHeight);
+		
+		timer_rect.w = lWidth;
+		timer_rect.h = lHeight;
+		timer_rect.x = 0;
+		timer_rect.y = 0;
+
+		timer_pos_rect.w = timer_rect.w;
+		timer_pos_rect.h = timer_rect.h;
+		timer_pos_rect.x = 5*bg_rect.w/6 + 80;
+		timer_pos_rect.y = 5;
+
+		next_time_refresh = current_time + 1000;
+	}
+	SDL_RenderCopy(pRenderer, timer_texture, &timer_rect, &timer_pos_rect);
+
 	if(current_time > next_fall_down)
 	{
 		if(lvl_player.is_jumping())
@@ -419,7 +463,6 @@ bool Level::render(SDL_Renderer* pRenderer)
 	
 		next_arachnes_update = current_time + 600;
 	}
-
 	
 	//Check if the player collides with dangerous things
 	if(check_danger_collision())

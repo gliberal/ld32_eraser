@@ -6,9 +6,11 @@
 #ifdef __APPLE__
 #include <SDL2_image/SDL_image.h>
 #include <SDL2_mixer/SDL_mixer.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #else
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 #endif
 
 #include <fstream>
@@ -29,7 +31,9 @@ using namespace std;
 class Level
 {
 	private:
+		int start_time{-1};
 		int current_time{0};
+		int next_time_refresh{0};
 		int next_fall_down{0};
 		int next_spikes_update{0};
 		int next_plants_update{0};
@@ -40,6 +44,12 @@ class Level
 
 		SDL_Surface* bg_image;
 		SDL_Texture* bg_texture;
+
+		SDL_Color txt_color = {0, 0, 0};
+		TTF_Font* txt_font;
+		SDL_Texture* timer_texture;
+		SDL_Rect timer_rect;
+		SDL_Rect timer_pos_rect;
 
 		SDL_Surface* ground_image;	
 		SDL_Texture* ground_texture;
