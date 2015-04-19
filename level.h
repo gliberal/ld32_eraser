@@ -25,6 +25,7 @@
 #include "spike.h"
 #include "plantivorus.h"
 #include "arachne.h"
+#include "ghost.h"
 
 using namespace std;
 
@@ -65,6 +66,7 @@ class Level
 		vector<Spike> lvl_spikes;
 		vector<Plantivorus> lvl_plants;
 		vector<Arachne> lvl_arachnes;
+		vector<Ghost> lvl_ghosts;
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* sfx_eraser;

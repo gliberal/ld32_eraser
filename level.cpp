@@ -96,6 +96,11 @@ void Level::unload()
 		SDL_DestroyTexture(lvl_arachne.get_texture());
 	}
 
+	for(auto &lvl_ghost : lvl_ghosts)
+	{
+		SDL_DestroyTexture(lvl_ghost.get_texture());
+	}
+
 	//Stop music
 	Mix_HaltMusic();
 	Mix_FreeMusic(lvl_music);
@@ -136,6 +141,7 @@ bool Level::load_map(string pMapFilepath)
 	string lvl_spike_path = lvl_asset_path + "spike.png";
 	string lvl_plant_path = lvl_asset_path + "plant.png";
 	string lvl_arachne_path = lvl_asset_path + "arachne.png";
+	string lvl_ghost_path = lvl_asset_path + "ghost.png";
 
 	ifstream lvl_file(pMapFilepath);
 
@@ -179,6 +185,12 @@ bool Level::load_map(string pMapFilepath)
 							Plantivorus lvl_plant = Plantivorus(lvl_plant_path, col_idx, line_idx);
 							lvl_plants.push_back(lvl_plant);
 
+						}
+						break;
+					case 'G': //Ghost
+						{
+							Ghost lvl_ghost = Ghost(lvl_ghost_path, col_idx, line_idx);
+							lvl_ghosts.push_back(lvl_ghost);
 						}
 						break;
 					case 'C': //Crayon
@@ -270,6 +282,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 		}
 	}
 
+	for(auto &lvl_ghost : lvl_ghosts)
+	{
+		if(!lvl_ghost.init_texture(pRenderer))
+		{
+			cerr << "Invalid ghost texture" << endl;
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		cerr << "Invalid door texture" << endl;
@@ -326,8 +347,15 @@ bool Level::check_danger_collision()
 		}
 	}
 
-	//TODO Check with ghost
-	
+	//Check with ghost
+	for(auto &lvl_ghost : lvl_ghosts)
+	{
+		if(SDL_HasIntersection(lvl_player.get_rect(), lvl_ghost.get_rect()))
+		{
+			return true;			
+		}
+	}
+
 	//Check with arachne
 	for(auto &lvl_arachne : lvl_arachnes)
 	{
@@ -380,6 +408,11 @@ bool Level::render(SDL_Renderer* pRenderer)
 	for(auto &lvl_arachne : lvl_arachnes)
 	{
 		lvl_arachne.render(pRenderer);
+	}
+
+	for(auto &lvl_ghost : lvl_ghosts)
+	{
+		lvl_ghost.render(pRenderer);
 	}
 
 	lvl_door.render(pRenderer);
@@ -461,6 +494,11 @@ bool Level::render(SDL_Renderer* pRenderer)
 			lvl_arachne.switch_position();
 		}
 	
+		for(auto &lvl_ghost : lvl_ghosts)
+		{
+			lvl_ghost.switch_position();
+		}
+
 		next_arachnes_update = current_time + 600;
 	}
 	
@@ -556,6 +594,23 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	if(removal_id > -1)
 	{
 		lvl_arachnes.erase(lvl_arachnes.begin() + removal_id);
+		return true;
+	}
+
+	//Test ghosts
+	cpt = 0;
+	for(auto &lvl_ghost : lvl_ghosts)
+	{
+		if(SDL_HasIntersection(&mouse_rect, lvl_ghost.get_rect()))
+		{
+			removal_id = cpt;			
+		}
+		cpt++;
+	}
+
+	if(removal_id > -1)
+	{
+		lvl_ghosts.erase(lvl_ghosts.begin() + removal_id);
 		return true;
 	}
 
