@@ -138,9 +138,19 @@ bool GameWindow::run()
 	mouse.dispose();
 	menu.dispose();
 
-	//Slow down cycles
-	SDL_Delay(1800);
-	
+	//Display the ending screen
+	SDL_RenderClear(renderer);	
+	SDL_Surface* end_image = IMG_Load((base_path + "assets/pic_exit.png").c_str());
+	SDL_Texture* end_texture = SDL_CreateTextureFromSurface(renderer, end_image);
+	if(end_texture > 0)
+	{
+		SDL_FreeSurface(end_image);
+		SDL_RenderCopy(renderer, end_texture, nullptr, nullptr);
+		SDL_RenderPresent(renderer);
+
+		//Slow down cycles
+		SDL_Delay(1800);
+	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);
 	Mix_CloseAudio();
