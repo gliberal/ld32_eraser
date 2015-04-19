@@ -50,14 +50,23 @@ bool Level::load(SDL_Renderer* pRenderer)
 		return false;
 	}
 
-	//Initialize the beep sound
+	//Initialize the eraser sound
 	sfx_eraser = Mix_LoadWAV((lvl_asset_path + "sfx/eraser.wav").c_str());
 	if(sfx_eraser == nullptr)
 	{
-		cerr << "Cannot load sounds" << endl;  
+		cerr << "Cannot load sound eraser" << endl;  
 		return false;
 	}
 	Mix_VolumeChunk(sfx_eraser, 60);
+
+	//Initialize the die sound
+	sfx_die_splash = Mix_LoadWAV((lvl_asset_path + "sfx/dead_splash.wav").c_str());
+	if(sfx_die_splash == nullptr)
+	{
+		cerr << "Cannot load sound die splash" << endl;  
+		return false;
+	}
+	Mix_VolumeChunk(sfx_die_splash, 20);
 
 	is_load = true;
 
@@ -112,6 +121,7 @@ void Level::unload()
 
 	//Free sounds
 	Mix_FreeChunk(sfx_eraser);
+	Mix_FreeChunk(sfx_die_splash);
 
 	TTF_CloseFont(txt_font);
 	SDL_DestroyTexture(timer_texture);
@@ -342,7 +352,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 void Level::play_bg_music()
 {
 	Mix_PlayMusic(lvl_music, -1);
-	Mix_VolumeMusic(20);
+	Mix_VolumeMusic(15);
 }
 
 //Check for collision with a given SDL_Rect
@@ -558,6 +568,9 @@ bool Level::render(SDL_Renderer* pRenderer)
 	//Check if the player collides with dangerous things
 	if(check_danger_collision())
 	{
+		//Play sound only if something erasable is under the eraser
+		Mix_PlayChannel(-1, sfx_die_splash, 0); 
+		SDL_Delay(200);
 		return false;
 	}
 

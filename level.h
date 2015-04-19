@@ -73,6 +73,7 @@ class Level
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* sfx_eraser;
+		Mix_Chunk* sfx_die_splash;
 
 		//Add rect to lvl_ground vector
 		void add_rect(int pX, int pY);
