@@ -6,8 +6,8 @@ EXEC = eraser
 
 BASIC_OBJS = player.o menu.o menu_button.o door.o pencil.o mouse_cursor.o position.o
 COMPLEX_OBJS = game_window.o level_manager.o level.o
-DANGEROUS_OBJS = spike.o plantivorus.o arachne.o ghost.o monster.o
-OBJ_FILES = main.o $(BASIC_OBJS) $(COMPLEX_OBJS) $(DANGEROUS_OBJS)
+INTERACTIVE_OBJS = spike.o plantivorus.o arachne.o ghost.o monster.o time_bonus.o
+OBJ_FILES = main.o $(BASIC_OBJS) $(COMPLEX_OBJS) $(INTERACTIVE_OBJS)
 
 #Define the ALL scope (default)
 all: clean game 
@@ -19,11 +19,11 @@ game : main
 main: complex_components
 	$(CC) -c $(FLAGS) main.cpp
 
-complex_components: dangerous_components
+complex_components: interactive_components
 	$(CC) -c $(FLAGS) game_window.cpp level_manager.cpp level.cpp
 
-dangerous_components: basic_components
-	$(CC) -c $(FLAGS) spike.cpp plantivorus.cpp arachne.cpp ghost.cpp monster.cpp
+interactive_components: basic_components
+	$(CC) -c $(FLAGS) spike.cpp plantivorus.cpp arachne.cpp ghost.cpp monster.cpp time_bonus.cpp
 
 basic_components: 
 	$(CC) -c $(FLAGS) player.cpp menu.cpp menu_button.cpp door.cpp pencil.cpp mouse_cursor.cpp position.cpp

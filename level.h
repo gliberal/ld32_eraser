@@ -27,13 +27,14 @@
 #include "arachne.h"
 #include "ghost.h"
 #include "monster.h"
+#include "time_bonus.h"
 
 using namespace std;
 
 class Level
 {
 	private:
-		int start_time{-1};
+		int available_time{15};
 		int current_time{0};
 		int next_time_refresh{0};
 		int next_fall_down{0};
@@ -72,6 +73,8 @@ class Level
 		vector<Ghost> lvl_ghosts;
 		vector<Monster> lvl_monsters;
 
+		vector<TimeBonus> lvl_tbonuses;
+
 		Mix_Music* lvl_music;
 		Mix_Chunk* sfx_eraser;
 		Mix_Chunk* sfx_die_splash;
@@ -89,6 +92,9 @@ class Level
 		bool is_finish = false;
 
 	public:
+		//Bonus of 5 sec
+		static const int TIME_BONUS_VALUE = 5; 
+
 		//Constructor
 		Level(){};
 
@@ -133,11 +139,17 @@ class Level
 		//Check for collision with a given SDL_Rect
 		bool check_ground_collision();
 
+		//Check for collision with timer bonuses
+		int check_time_bonus_collision();
+
 		//Check collisions with dangerous things
 		bool check_danger_collision();
 
 		//Check for collision between player_rect and door
 		bool check_door_collision();
+
+		//Refresh timer
+		void refresh_timer(SDL_Renderer* pRenderer);
 
 		//Render the texture through given renderer
 		bool render(SDL_Renderer* pRenderer);

@@ -110,6 +110,11 @@ void Level::unload()
 		SDL_DestroyTexture(lvl_ghost.get_texture());
 	}
 
+	for(auto &lvl_tbonus : lvl_tbonuses)
+	{
+		SDL_DestroyTexture(lvl_tbonus.get_texture());
+	}
+
 	for(auto &lvl_monster : lvl_monsters)
 	{
 		lvl_monster.dispose();
@@ -158,6 +163,7 @@ bool Level::load_map(string pMapFilepath)
 	string lvl_arachne_path = lvl_asset_path + "arachne.png";
 	string lvl_ghost_path = lvl_asset_path + "ghost.png";
 	string lvl_monster_path = lvl_asset_path + "monster.png";
+	string lvl_timebonus_path = lvl_asset_path + "timer.png";
 
 	ifstream lvl_file(pMapFilepath);
 
@@ -216,6 +222,12 @@ bool Level::load_map(string pMapFilepath)
 						{
 							Ghost lvl_ghost = Ghost(lvl_ghost_path, col_idx, line_idx);
 							lvl_ghosts.push_back(lvl_ghost);
+						}
+						break;
+					case 'T': //Time bonus
+						{
+							TimeBonus lvl_tbonus = TimeBonus(lvl_timebonus_path, col_idx, line_idx);
+							lvl_tbonuses.push_back(lvl_tbonus);
 						}
 						break;
 					case 'C': //Crayon
@@ -333,6 +345,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 		}
 	}
 
+	for(auto &lvl_tbonus : lvl_tbonuses)
+	{
+		if(!lvl_tbonus.init_texture(pRenderer))
+		{
+			cerr << "Invalid time bonus texture" << endl;
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		cerr << "Invalid door texture" << endl;
@@ -367,6 +388,24 @@ bool Level::check_ground_collision()
 	}
 	return false;
 }
+
+//Check for collision with timer bonuses
+int Level::check_time_bonus_collision()
+{
+	int cpt{0};
+	int idx{-1};
+	
+	for(auto &lvl_tbonus : lvl_tbonuses)
+	{
+		if(SDL_HasIntersection(lvl_player.get_rect(), lvl_tbonus.get_rect()))
+		{
+			idx = cpt;			
+		}
+		cpt++;
+	}
+	return idx;
+}
+
 
 //Check collisions with dangerous things
 bool Level::check_danger_collision()
@@ -429,6 +468,30 @@ bool Level::check_door_collision()
 	return false;
 }
 
+//Refresh timer
+void Level::refresh_timer(SDL_Renderer* pRenderer)
+{
+	string current_txt = to_string(available_time);
+
+	SDL_Surface* txt_image = TTF_RenderText_Blended_Wrapped(txt_font, current_txt.c_str(), txt_color, bg_rect.w - 5);
+	timer_texture = SDL_CreateTextureFromSurface(pRenderer, txt_image);
+	SDL_FreeSurface(txt_image);
+	
+	int lWidth{0};
+	int lHeight{0};
+	SDL_QueryTexture(timer_texture, nullptr, nullptr, &lWidth, &lHeight);
+	
+	timer_rect.w = lWidth;
+	timer_rect.h = lHeight;
+	timer_rect.x = 0;
+	timer_rect.y = 0;
+
+	timer_pos_rect.w = timer_rect.w;
+	timer_pos_rect.h = timer_rect.h;
+	timer_pos_rect.x = 5*bg_rect.w/6 + 80;
+	timer_pos_rect.y = 5;
+}
+
 //Render the texture through given renderer
 bool Level::render(SDL_Renderer* pRenderer)
 {
@@ -469,41 +532,23 @@ bool Level::render(SDL_Renderer* pRenderer)
 		lvl_monster.render(pRenderer);
 	}
 
+	for(auto &lvl_tbonus : lvl_tbonuses)
+	{
+		lvl_tbonus.render(pRenderer);
+	}
+
 	lvl_door.render(pRenderer);
 
 	current_time = SDL_GetTicks();
 
-	if(start_time == -1)
-	{
-		start_time = current_time; 
-	}
-
 	if(current_time > next_time_refresh)
 	{
-		//(current_time - start_time) / 1000;
-		string current_txt = to_string((current_time - start_time) / 1000);
-		SDL_Surface* txt_image = TTF_RenderText_Blended_Wrapped(txt_font, current_txt.c_str(), txt_color, bg_rect.w - 5);
-		timer_texture = SDL_CreateTextureFromSurface(pRenderer, txt_image);
-		if(timer_texture <= 0)
+		available_time--;
+		if(available_time <= 0)
 		{
 			return false;
 		}
-		SDL_FreeSurface(txt_image);
-
-		int lWidth{0};
-		int lHeight{0};
-		SDL_QueryTexture(timer_texture, nullptr, nullptr, &lWidth, &lHeight);
-		
-		timer_rect.w = lWidth;
-		timer_rect.h = lHeight;
-		timer_rect.x = 0;
-		timer_rect.y = 0;
-
-		timer_pos_rect.w = timer_rect.w;
-		timer_pos_rect.h = timer_rect.h;
-		timer_pos_rect.x = 5*bg_rect.w/6 + 80;
-		timer_pos_rect.y = 5;
-
+		refresh_timer(pRenderer);		
 		next_time_refresh = current_time + 1000;
 	}
 	SDL_RenderCopy(pRenderer, timer_texture, &timer_rect, &timer_pos_rect);
@@ -579,7 +624,17 @@ bool Level::render(SDL_Renderer* pRenderer)
 	{
 		is_finish = true;
 	}
-	
+
+
+	int tbonus_idx = check_time_bonus_collision();
+	if(tbonus_idx > -1)
+	{
+		lvl_tbonuses.erase(lvl_tbonuses.begin() + tbonus_idx);
+		
+		available_time = available_time + TIME_BONUS_VALUE;
+		refresh_timer(pRenderer);		
+	}
+
 	lvl_player.render(pRenderer);
 	return true;
 }
@@ -594,26 +649,10 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	mouse_rect.x = pMouseX;
 	mouse_rect.y = pMouseY;
 	
-	//Test the ground
+	//Test the spikes
 	int cpt = 0;
 	int removal_id = -1;
-	for(auto lGroundRect : lvl_ground)
-	{
-		if(SDL_HasIntersection(&mouse_rect, &lGroundRect))
-		{
-			removal_id = cpt;			
-		}
-		cpt++;
-	}
-
-	if(removal_id > -1)
-	{
-		lvl_ground.erase(lvl_ground.begin() + removal_id);
-		return true;	
-	}
-
-	//Test the spikes
-	cpt = 0;
+	
 	for(auto &lvl_spike : lvl_spikes)
 	{
 		if(SDL_HasIntersection(&mouse_rect, lvl_spike.get_rect()))
@@ -679,6 +718,24 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 		lvl_monsters.erase(lvl_monsters.begin() + removal_id);
 		return true;
 	}
+
+	//Test timers (mouahhaha)
+	cpt = 0;
+	for(auto &lvl_tbonus : lvl_tbonuses)
+	{
+		if(SDL_HasIntersection(&mouse_rect, lvl_tbonus.get_rect()))
+		{
+			removal_id = cpt;			
+		}
+		cpt++;
+	}
+
+	if(removal_id > -1)
+	{
+		lvl_tbonuses.erase(lvl_tbonuses.begin() + removal_id);
+		return true;
+	}
+
 
 	return false;
 }
