@@ -79,6 +79,7 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 	current_level_id++;
 	if(current_level_id == (int)level_ids.size())
 	{
+		display_happy_ending(pRenderer);
 		return false;
 	}
 	std::string lvl_map = level_data_path + level_ids[current_level_id] + "/" + LEVEL_MAP_FILENAME;
@@ -91,6 +92,24 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 	}
 
 	return true;
+}
+
+//Display an happy ending message
+void LevelManager::display_happy_ending(SDL_Renderer* pRenderer)
+{
+	//TODO display game time (add global timer) + qty of paper sheets
+	SDL_RenderClear(pRenderer);	
+	SDL_Surface* end_image = IMG_Load((level_asset_path + "pic_end.png").c_str());
+	SDL_Texture* end_texture = SDL_CreateTextureFromSurface(pRenderer, end_image);
+	if(end_texture > 0)
+	{
+		SDL_FreeSurface(end_image);
+		SDL_RenderCopy(pRenderer, end_texture, nullptr, nullptr);
+		SDL_RenderPresent(pRenderer);
+
+		//Slow down cycles
+		SDL_Delay(200);
+	}
 }
 
 //Event dispatcher

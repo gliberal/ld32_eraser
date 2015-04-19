@@ -43,6 +43,9 @@ class LevelManager
 		//Display the current level
 		bool display(SDL_Renderer* pRenderer);
 
+		//Display an happy ending message
+		void display_happy_ending(SDL_Renderer* pRenderer);
+
 		//Event dispatcher
 		void on_event(SDL_Event* pEvent);	
 };
