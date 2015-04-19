@@ -1,7 +1,7 @@
 #Define vars
 CC = g++
 FLAGS = -Wall -std=c++11
-LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer 
+LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf 
 EXEC = eraser
 
 BASIC_OBJS = player.o menu.o menu_button.o door.o pencil.o mouse_cursor.o position.o

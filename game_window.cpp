@@ -3,9 +3,11 @@
 #ifdef __APPLE__
 #include <SDL2_image/SDL_image.h>
 #include <SDL2_mixer/SDL_mixer.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #else
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 #endif
 
 //Initialize an 1024x768 SDL window
@@ -36,6 +38,12 @@ bool GameWindow::init()
 
 	//Initialize SDL_Mixer
 	if(Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 1024) < 0)
+	{
+		return false;
+	}
+
+	//Initialize SDL_TTF
+	if(TTF_Init() < 0)
 	{
 		return false;
 	}
@@ -136,6 +144,7 @@ bool GameWindow::run()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);
 	Mix_CloseAudio();
+	TTF_Quit();
 	SDL_Quit();
 	return true;
 }
