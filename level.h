@@ -152,6 +152,12 @@ class Level
 		//Refresh timer
 		void refresh_timer(SDL_Renderer* pRenderer);
 
+		//Display no more time picture
+		void display_no_more_time(SDL_Renderer* pRenderer);
+
+		//Display failure message
+		void display_fail(SDL_Renderer* pRenderer);
+
 		//Render the texture through given renderer
 		bool render(SDL_Renderer* pRenderer);
 

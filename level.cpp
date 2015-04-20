@@ -502,6 +502,42 @@ void Level::refresh_timer(SDL_Renderer* pRenderer)
 	timer_pos_rect.y = 5;
 }
 
+//Display no more time picture
+void Level::display_no_more_time(SDL_Renderer* pRenderer)
+{
+	SDL_RenderClear(pRenderer);	
+	string image_path = lvl_asset_path + "pic_notime.png";
+	SDL_Surface* image = IMG_Load(image_path.c_str());
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(pRenderer, image);
+	if(texture > 0)
+	{
+		SDL_FreeSurface(image);
+		SDL_RenderCopy(pRenderer, texture, nullptr, nullptr);
+		SDL_RenderPresent(pRenderer);
+		
+		//Slow down cycles
+		SDL_Delay(2000);
+	}
+}
+
+//Display failure message
+void Level::display_fail(SDL_Renderer* pRenderer)
+{
+	SDL_RenderClear(pRenderer);	
+	string image_path = lvl_asset_path + "pic_fail.png";
+	SDL_Surface* image = IMG_Load(image_path.c_str());
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(pRenderer, image);
+	if(texture > 0)
+	{
+		SDL_FreeSurface(image);
+		SDL_RenderCopy(pRenderer, texture, nullptr, nullptr);
+		SDL_RenderPresent(pRenderer);
+		
+		//Slow down cycles
+		SDL_Delay(2000);
+	}
+}
+
 //Render the texture through given renderer
 bool Level::render(SDL_Renderer* pRenderer)
 {
@@ -556,6 +592,7 @@ bool Level::render(SDL_Renderer* pRenderer)
 		available_time--;
 		if(available_time <= 0)
 		{
+			display_no_more_time(pRenderer);
 			return false;
 		}
 		refresh_timer(pRenderer);		
@@ -626,6 +663,7 @@ bool Level::render(SDL_Renderer* pRenderer)
 		//Play sound only if something erasable is under the eraser
 		Mix_PlayChannel(-1, sfx_die_splash, 0); 
 		SDL_Delay(200);
+		display_fail(pRenderer);
 		return false;
 	}
 
@@ -634,7 +672,6 @@ bool Level::render(SDL_Renderer* pRenderer)
 	{
 		is_finish = true;
 	}
-
 
 	int tbonus_idx = check_time_bonus_collision();
 	if(tbonus_idx > -1)
