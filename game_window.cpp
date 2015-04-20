@@ -140,7 +140,12 @@ bool GameWindow::run()
 
 	//Display the ending screen
 	SDL_RenderClear(renderer);	
-	SDL_Surface* end_image = IMG_Load((base_path + "assets/pic_exit.png").c_str());
+	std::string end_image_path = base_path + "assets/pic_quit.png";
+	if(is_playing)
+	{
+		end_image_path = base_path + "assets/pic_exit.png";
+	}
+	SDL_Surface* end_image = IMG_Load(end_image_path.c_str());
 	SDL_Texture* end_texture = SDL_CreateTextureFromSurface(renderer, end_image);
 	if(end_texture > 0)
 	{
@@ -149,7 +154,7 @@ bool GameWindow::run()
 		SDL_RenderPresent(renderer);
 
 		//Slow down cycles
-		SDL_Delay(1800);
+		SDL_Delay(2000);
 	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);

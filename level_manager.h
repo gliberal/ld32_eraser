@@ -15,7 +15,7 @@ class LevelManager
 		const string INDEX_FILENAME = "lvl_index";
 		const string LEVEL_MAP_FILENAME = "lvl_map";
 		const string LEVEL_BG_FILENAME = "bg.png";
-
+	
 		string level_base_path;
 		string level_data_path;
 		string level_asset_path;
@@ -23,7 +23,9 @@ class LevelManager
 
 		vector<string> level_ids;
 		Level current_level;
+	
 		int current_level_id{-1};
+		int start_time{-1};
 
 		//initialize paths
 		void init_paths(string pPath);
@@ -42,6 +44,9 @@ class LevelManager
 
 		//Display the current level
 		bool display(SDL_Renderer* pRenderer);
+
+		//Display ending stats
+		void display_stats(SDL_Renderer* pRenderer, int pElapsedTime);
 
 		//Display an happy ending message
 		void display_happy_ending(SDL_Renderer* pRenderer);
