@@ -3,3 +3,11 @@
 *~
 
 eraser
+/.conan/graph_info.json
+/.conan/conaninfo.txt
+/.conan/conanbuildinfo.txt
+/.conan/conanbuildinfo.cmake
+/.conan/conan.lock
+/.vs
+/out/build/x64-Debug
+/CMakeSettings.json
