@@ -10,4 +10,5 @@ This game is under GPLv3 license.
 
 ## How to build
 First release : through Makefile
+
 2020 : use Conan/CMake to handle dependencies & builds (test in progress)
