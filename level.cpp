@@ -10,7 +10,7 @@ bool Level::load(SDL_Renderer* pRenderer)
 	txt_font = TTF_OpenFont((lvl_asset_path + "ThinPencilHandwriting.ttf").c_str(), 40);
 	if(!txt_font)
 	{
-		cerr << "Cannot load the font" << endl;
+		std::cerr << "Cannot load the font" << std::endl;
 	}
 
 	//Initialize the ground image
@@ -31,14 +31,14 @@ bool Level::load(SDL_Renderer* pRenderer)
 	//Load the map
 	if(!load_map(lvl_map_path))
 	{
-		cerr << "Cannot load level map: " + lvl_map_path << endl;
+		std::cerr << "Cannot load level map: " + lvl_map_path << std::endl;
 		return false;
 	}
 
 	//Load level textures
 	if(!init_textures(pRenderer)) 
 	{
-		cerr << "Cannot initialize level textures" << endl;
+		std::cerr << "Cannot initialize level textures" << std::endl;
 		return false;
 	}
 
@@ -46,7 +46,7 @@ bool Level::load(SDL_Renderer* pRenderer)
 	lvl_music = Mix_LoadMUS((lvl_asset_path + "sfx/music.ogg").c_str());
 	if(!lvl_music)
 	{
-		cerr << "Cannot load music" << endl;
+		std::cerr << "Cannot load music" << std::endl;
 		return false;
 	}
 
@@ -54,7 +54,7 @@ bool Level::load(SDL_Renderer* pRenderer)
 	sfx_eraser = Mix_LoadWAV((lvl_asset_path + "sfx/eraser.wav").c_str());
 	if(sfx_eraser == nullptr)
 	{
-		cerr << "Cannot load sound eraser" << endl;  
+		std::cerr << "Cannot load sound eraser" << std::endl;  
 		return false;
 	}
 	Mix_VolumeChunk(sfx_eraser, 60);
@@ -63,7 +63,7 @@ bool Level::load(SDL_Renderer* pRenderer)
 	sfx_die_splash = Mix_LoadWAV((lvl_asset_path + "sfx/dead_splash.wav").c_str());
 	if(sfx_die_splash == nullptr)
 	{
-		cerr << "Cannot load sound die splash" << endl;  
+		std::cerr << "Cannot load sound die splash" << std::endl;  
 		return false;
 	}
 	Mix_VolumeChunk(sfx_die_splash, 20);
@@ -72,7 +72,7 @@ bool Level::load(SDL_Renderer* pRenderer)
 	sfx_get_time = Mix_LoadWAV((lvl_asset_path + "sfx/timer.wav").c_str());
 	if(sfx_get_time == nullptr)
 	{
-		cerr << "Cannot load sound get time" << endl;  
+		std::cerr << "Cannot load sound get time" << std::endl;  
 		return false;
 	}
 	Mix_VolumeChunk(sfx_get_time, 20);
@@ -160,26 +160,26 @@ void Level::add_rect(int pX, int pY)
 }
 
 //Load the level map
-bool Level::load_map(string pMapFilepath)
+bool Level::load_map(std::string pMapFilepath)
 {
 	bool has_door = false;
 	bool has_player = false;
 
-	string lvl_player_path = lvl_asset_path + "playersheet.png";
-	string lvl_door_path = lvl_asset_path + "hole.png";
-	string lvl_pencil_path = lvl_asset_path + "pencil.png";
-	string lvl_spike_path = lvl_asset_path + "spike.png";
-	string lvl_plant_path = lvl_asset_path + "plant.png";
-	string lvl_arachne_path = lvl_asset_path + "arachne.png";
-	string lvl_ghost_path = lvl_asset_path + "ghost.png";
-	string lvl_monster_path = lvl_asset_path + "monster.png";
-	string lvl_timebonus_path = lvl_asset_path + "timer.png";
+	std::string lvl_player_path = lvl_asset_path + "playersheet.png";
+	std::string lvl_door_path = lvl_asset_path + "hole.png";
+	std::string lvl_pencil_path = lvl_asset_path + "pencil.png";
+	std::string lvl_spike_path = lvl_asset_path + "spike.png";
+	std::string lvl_plant_path = lvl_asset_path + "plant.png";
+	std::string lvl_arachne_path = lvl_asset_path + "arachne.png";
+	std::string lvl_ghost_path = lvl_asset_path + "ghost.png";
+	std::string lvl_monster_path = lvl_asset_path + "monster.png";
+	std::string lvl_timebonus_path = lvl_asset_path + "timer.png";
 
-	ifstream lvl_file(pMapFilepath);
+	std::ifstream lvl_file(pMapFilepath);
 
 	if(lvl_file.is_open())
 	{
-		string line;
+		std::string line;
 		float line_idx{0};
 		float col_idx{0};
 
@@ -265,13 +265,13 @@ bool Level::load_map(string pMapFilepath)
 	
 		if(!has_player)
 		{
-			cerr << "There is no player in this level map (" + pMapFilepath + ") !!" << endl;
+			std::cerr << "There is no player in this level map (" + pMapFilepath + ") !!" << std::endl;
 			return false;
 		}
 
 		if(!has_door)
 		{
-			cerr << "There is no exit in this level map (" + pMapFilepath + ") !!" << endl;
+			std::cerr << "There is no exit in this level map (" + pMapFilepath + ") !!" << std::endl;
 			return false;
 		}
 	}
@@ -288,7 +288,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	bg_texture = SDL_CreateTextureFromSurface(pRenderer, bg_image);
 	if(bg_texture <= 0)
 	{
-		cerr << "Invalid background texture" << endl;
+		std::cerr << "Invalid background texture" << std::endl;
 		return false;
 	}
 	SDL_FreeSurface(bg_image);
@@ -296,7 +296,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	ground_texture = SDL_CreateTextureFromSurface(pRenderer, ground_image);
 	if(ground_texture <= 0)
 	{
-		cerr << "Invalid ground texture" << endl;
+		std::cerr << "Invalid ground texture" << std::endl;
 		return false;
 	}
 	SDL_FreeSurface(ground_image);
@@ -305,7 +305,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_pencil.init_texture(pRenderer))
 		{
-			cerr << "Invalid pencil texture" << endl;
+			std::cerr << "Invalid pencil texture" << std::endl;
 			return false;
 		}
 	}
@@ -314,7 +314,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_spike.init_texture(pRenderer))
 		{
-			cerr << "Invalid spike texture" << endl;
+			std::cerr << "Invalid spike texture" << std::endl;
 			return false;
 		}
 	}
@@ -323,7 +323,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_plant.init_texture(pRenderer))
 		{
-			cerr << "Invalid plantivorus texture" << endl;
+			std::cerr << "Invalid plantivorus texture" << std::endl;
 			return false;
 		}
 	}
@@ -332,7 +332,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_arachne.init_texture(pRenderer))
 		{
-			cerr << "Invalid arachne texture" << endl;
+			std::cerr << "Invalid arachne texture" << std::endl;
 			return false;
 		}
 	}
@@ -341,7 +341,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_ghost.init_texture(pRenderer))
 		{
-			cerr << "Invalid ghost texture" << endl;
+			std::cerr << "Invalid ghost texture" << std::endl;
 			return false;
 		}
 	}
@@ -350,7 +350,7 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_monster.init_texture(pRenderer))
 		{
-			cerr << "Invalid monster texture" << endl;
+			std::cerr << "Invalid monster texture" << std::endl;
 			return false;
 		}
 	}
@@ -359,20 +359,20 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	{
 		if(!lvl_tbonus.init_texture(pRenderer))
 		{
-			cerr << "Invalid time bonus texture" << endl;
+			std::cerr << "Invalid time bonus texture" << std::endl;
 			return false;
 		}
 	}
 
 	if(!lvl_door.init_texture(pRenderer))
 	{
-		cerr << "Invalid door texture" << endl;
+		std::cerr << "Invalid door texture" << std::endl;
 		return false;
 	}
 
 	if(!lvl_player.init_texture(pRenderer))
 	{
-		cerr << "Invalid player texture" << endl;
+		std::cerr << "Invalid player texture" << std::endl;
 		return false;
 	}
 
@@ -481,7 +481,7 @@ bool Level::check_door_collision()
 //Refresh timer
 void Level::refresh_timer(SDL_Renderer* pRenderer)
 {
-	string current_txt = to_string(available_time);
+	std::string current_txt = std::to_string(available_time);
 
 	SDL_Surface* txt_image = TTF_RenderText_Blended_Wrapped(txt_font, current_txt.c_str(), txt_color, bg_rect.w - 5);
 	timer_texture = SDL_CreateTextureFromSurface(pRenderer, txt_image);
@@ -506,7 +506,7 @@ void Level::refresh_timer(SDL_Renderer* pRenderer)
 void Level::display_no_more_time(SDL_Renderer* pRenderer)
 {
 	SDL_RenderClear(pRenderer);	
-	string image_path = lvl_asset_path + "pic_notime.png";
+	std::string image_path = lvl_asset_path + "pic_notime.png";
 	SDL_Surface* image = IMG_Load(image_path.c_str());
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(pRenderer, image);
 	if(texture > 0)
@@ -524,7 +524,7 @@ void Level::display_no_more_time(SDL_Renderer* pRenderer)
 void Level::display_fail(SDL_Renderer* pRenderer)
 {
 	SDL_RenderClear(pRenderer);	
-	string image_path = lvl_asset_path + "pic_fail.png";
+	std::string image_path = lvl_asset_path + "pic_fail.png";
 	SDL_Surface* image = IMG_Load(image_path.c_str());
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(pRenderer, image);
 	if(texture > 0)

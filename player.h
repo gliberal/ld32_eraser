@@ -12,12 +12,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
-
 class Player
 {
 	Position pos;
-	string player_image_path;
+	std::string player_image_path;
 	SDL_Texture* player_texture;
 	SDL_Rect sprite_rect;
 	SDL_Rect player_rect;
@@ -38,7 +36,7 @@ class Player
 		static const int RIGHT = 1;
 
 		//Constructors
-		Player(string pSpritePath="", int pX=0, int pY=0)
+		Player(std::string pSpritePath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 
@@ -93,9 +91,9 @@ class Player
 		void move_y(int step);
 
 		//Let the user falls if he's not on the groud
-		bool fall(vector<SDL_Rect> ground);
+		bool fall(std::vector<SDL_Rect> ground);
 
 		//Check if player has instersection with given SDL_Rects
-		bool has_intersection(vector<SDL_Rect> sdl_rect_vector);
+		bool has_intersection(std::vector<SDL_Rect> sdl_rect_vector);
 };
 #endif

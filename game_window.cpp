@@ -10,7 +10,10 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
-// SDL Window - Init
+/**
+ *init
+ *\brief GameWindow inits itself
+ **/
 bool GameWindow::init()
 {
 	// SDL components - Init status 
@@ -76,7 +79,11 @@ bool GameWindow::init()
 	return true;
 }
 
-//  Game : run ! 
+/**
+ *run 
+ *\brief GameWindow runs the game
+ *\return boolean : GameWindow run status
+ **/ 
 bool GameWindow::run()
 {
 	// Is it running ?--
@@ -221,7 +228,11 @@ bool GameWindow::run()
 	return true;
 }
 
-//Handle SDL events 
+/**
+ * on_event (GameWindow)
+ * \brief GameWindow SDL events handler
+ * \return void
+ **/
 void GameWindow::on_event(SDL_Event* pEvent)
 {
 	switch(pEvent->type)

@@ -11,8 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
-
 class Arachne
 {
 	private:
@@ -28,7 +26,7 @@ class Arachne
 		static const int POS_2 = 64;
 
 		//Constructor
-		Arachne(string pArachnePath="", int pX=0, int pY=0)
+		Arachne(std::string pArachnePath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

@@ -11,7 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
 
 class TimeBonus
 {
@@ -24,7 +23,7 @@ class TimeBonus
 
 	public:
 		//Constructor
-		TimeBonus(string pTimeBonusPath="", int pX=0, int pY=0)
+		TimeBonus(std::string pTimeBonusPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

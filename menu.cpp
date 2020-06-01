@@ -1,6 +1,15 @@
+/**
+ * Menu
+ *\brief Game menu
+ **/
+
 #include "menu.h"
 
-// Menu - Load
+/**
+ *load
+ *\brief Menu loads
+ *\return boolean : menu loading status
+ * */
 bool Menu::load(SDL_Renderer* pRenderer, std::string pPath)
 {	
 	// Background - Init
@@ -27,7 +36,11 @@ bool Menu::load(SDL_Renderer* pRenderer, std::string pPath)
 	return true;
 }
 
-// Menu - Display
+/**
+ *display
+ *\brief Menu displays itself
+ *\return void
+ **/
 void Menu::display(SDL_Renderer* pRenderer)
 {
 	
@@ -39,7 +52,11 @@ void Menu::display(SDL_Renderer* pRenderer)
 	bt_exit.display(pRenderer);
 }
 
-// Menu - Dispose
+/**
+ *dispose
+ *\brief Menu disposes itself
+ *\return void
+ **/
 void Menu::dispose()
 {
 	// Clean 
@@ -47,7 +64,11 @@ void Menu::dispose()
 }
 
 
-// Button - Event handler
+/**
+ *check_bt_click
+ *\brief Check if the specified button has been clicked
+ *\return boolean : Button clicked boolean
+ **/
 bool Menu::check_bt_click(int pMouseX, int pMouseY, SDL_Rect* pBtRect)
 {
 	SDL_Rect mouse_rect;
@@ -63,7 +84,11 @@ bool Menu::check_bt_click(int pMouseX, int pMouseY, SDL_Rect* pBtRect)
 	return false;
 }
 
-// Menu - Check event
+/**
+ *check_event
+ *\brief Event handler
+ *\return int : Game event (int)
+ **/
 int Menu::check_event(SDL_Event* pEvent)
 {
 	// Event default : Nothing to do

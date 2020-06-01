@@ -11,7 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
 
 class Spike
 {
@@ -27,7 +26,7 @@ class Spike
 		static const int POS_1 = 64;
 
 		//Constructor
-		Spike(string pSpikePath="", int pX=0, int pY=0)
+		Spike(std::string pSpikePath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

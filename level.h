@@ -29,8 +29,6 @@
 #include "monster.h"
 #include "time_bonus.h"
 
-using namespace std;
-
 class Level
 {
 	private:
@@ -43,9 +41,9 @@ class Level
 		int next_arachnes_update{0};
 		int next_monster_move{0};
 
-		string lvl_bg_path;
-		string lvl_map_path;
-		string lvl_asset_path;
+		std::string lvl_bg_path;
+		std::string lvl_map_path;
+		std::string lvl_asset_path;
 
 		SDL_Surface* bg_image;
 		SDL_Texture* bg_texture;
@@ -61,19 +59,19 @@ class Level
 		SDL_Rect sprite_rect;
 		SDL_Rect bg_rect;
 
-		vector<SDL_Rect> lvl_ground;
+		std::vector<SDL_Rect> lvl_ground;
 
 		Player lvl_player;
 		Door lvl_door;
 
-		vector<Pencil> lvl_pencils;
-		vector<Spike> lvl_spikes;
-		vector<Plantivorus> lvl_plants;
-		vector<Arachne> lvl_arachnes;
-		vector<Ghost> lvl_ghosts;
-		vector<Monster> lvl_monsters;
+		std::vector<Pencil> lvl_pencils;
+		std::vector<Spike> lvl_spikes;
+		std::vector<Plantivorus> lvl_plants;
+		std::vector<Arachne> lvl_arachnes;
+		std::vector<Ghost> lvl_ghosts;
+		std::vector<Monster> lvl_monsters;
 
-		vector<TimeBonus> lvl_tbonuses;
+		std::vector<TimeBonus> lvl_tbonuses;
 
 		Mix_Music* lvl_music;
 		Mix_Chunk* sfx_eraser;
@@ -84,7 +82,7 @@ class Level
 		void add_rect(int pX, int pY);
 
 		//Load the level map
-		bool load_map(string pMapFilepath);
+		bool load_map(std::string pMapFilepath);
 
 		//Indicator if level is loaded
 		bool is_load = false;
@@ -99,12 +97,12 @@ class Level
 		//Constructor
 		Level(){};
 
-		Level(string pMapPath, string pBgPath, string pAssetPath)
+		Level(std::string pMapPath, std::string pBgPath, std::string pAssetPath)
 		{
 			lvl_map_path = pMapPath;
 			lvl_asset_path = pAssetPath;
 			
-			ifstream bg_file(pBgPath);		
+			std::ifstream bg_file(pBgPath);		
 			if(bg_file.is_open())
 			{
 				lvl_bg_path = pBgPath;

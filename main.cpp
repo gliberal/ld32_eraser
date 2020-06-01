@@ -7,7 +7,10 @@
 #include "game_window.h"
 #undef main
 
-// Main program
+/**
+ * Main program
+ * \brief Eraser - SDL2 Game
+ **/
 int main()
 {
 	// Windows instanciation
@@ -17,7 +20,7 @@ int main()
 	if(lWindow.run() == false)
 	{
 		// Output error message 
-		std::cerr << "An error has occured while loading game !\nPlease take a look on the previous messages." << endl;
+		std::cerr << "An error has occured while loading game !\nPlease take a look on the previous messages." << std::endl;
 		
 		// Exit failing program
 		return EXIT_FAILURE;

@@ -11,7 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
 
 class Pencil
 {
@@ -24,7 +23,7 @@ class Pencil
 
 	public:
 		//Constructor
-		Pencil(string pPencilPath="", int pX=0, int pY=0)
+		Pencil(std::string pPencilPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

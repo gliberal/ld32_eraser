@@ -11,7 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
 
 class Door
 {
@@ -24,7 +23,7 @@ class Door
 
 	public:
 		//Constructor
-		Door(string pDoorPath="", int pX=0, int pY=0)
+		Door(std::string pDoorPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

@@ -11,7 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
 
 class Plantivorus
 {
@@ -28,7 +27,7 @@ class Plantivorus
 		static const int POS_2 = 128;
 
 		//Constructor
-		Plantivorus(string pPlantPath="", int pX=0, int pY=0)
+		Plantivorus(std::string pPlantPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

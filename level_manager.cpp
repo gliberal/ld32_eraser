@@ -8,7 +8,7 @@
 #endif
 
 //Init paths
-void LevelManager::init_paths(string pPath)
+void LevelManager::init_paths(std::string pPath)
 {
 	level_base_path = pPath;
 	level_data_path = level_base_path + "data/";
@@ -17,13 +17,13 @@ void LevelManager::init_paths(string pPath)
 }
 
 //Load the lvl_index file
-bool LevelManager::load_index(SDL_Renderer* pRenderer, string pPath)
+bool LevelManager::load_index(SDL_Renderer* pRenderer, std::string pPath)
 {
 	init_paths(pPath);
-	ifstream index_file(index_path);
+	std::ifstream index_file(index_path);
 	if(index_file.is_open())
 	{
-		string line;
+		std::string line;
 		while(getline(index_file, line))
 		{
 			level_ids.push_back(line);
@@ -116,7 +116,7 @@ void LevelManager::display_stats(SDL_Renderer* pRenderer, int pElapsedTime)
 	else
 	{
 		SDL_Color txt_color = {0, 0, 0};
-		std::string text = "Congratulations !\n\nYou have used " + to_string(level_ids.size()) + " sheets in " + to_string(pElapsedTime) + " seconds."; 
+		std::string text = "Congratulations !\n\nYou have used " + std::to_string(level_ids.size()) + " sheets in " + std::to_string(pElapsedTime) + " seconds."; 
 	
 		SDL_Surface* txt_image = TTF_RenderText_Blended_Wrapped(txt_font, text.c_str(), txt_color, 400);
 		SDL_Texture* txt_texture = SDL_CreateTextureFromSurface(pRenderer, txt_image);

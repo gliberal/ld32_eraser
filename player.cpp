@@ -64,7 +64,7 @@ void Player::move_x(int step=1)
 }
 
 //PLayer fall
-bool Player::fall(vector<SDL_Rect> ground)
+bool Player::fall(std::vector<SDL_Rect> ground)
 {
 	//Update the rect
 	pos.set_y(pos.get_y()+1);
@@ -79,7 +79,7 @@ bool Player::fall(vector<SDL_Rect> ground)
 	return true;
 }
 
-bool Player::has_intersection(vector<SDL_Rect> sdl_rect_vector)
+bool Player::has_intersection(std::vector<SDL_Rect> sdl_rect_vector)
 {
 	for(auto lRect : sdl_rect_vector)
 	{

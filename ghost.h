@@ -11,8 +11,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
-
 class Ghost
 {
 	private:
@@ -27,7 +25,7 @@ class Ghost
 		static const int MOVE_OFFSET = -50;
 	
 		//Constructor
-		Ghost(string pGhostPath="", int pX=0, int pY=0)
+		Ghost(std::string pGhostPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 

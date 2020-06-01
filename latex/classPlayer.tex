@@ -1,0 +1,83 @@
+\hypertarget{classPlayer}{}\section{Player Class Reference}
+\label{classPlayer}\index{Player@{Player}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPlayer_a404fc6b75751623e7d3127201f848b00}\label{classPlayer_a404fc6b75751623e7d3127201f848b00}} 
+{\bfseries Player} (string p\+Sprite\+Path=\char`\"{}\char`\"{}, int pX=0, int pY=0)
+\item 
+\mbox{\Hypertarget{classPlayer_a709d8e62ca46e27aed73271a3566d651}\label{classPlayer_a709d8e62ca46e27aed73271a3566d651}} 
+S\+D\+L\+\_\+\+Rect $\ast$ {\bfseries get\+\_\+rect} ()
+\item 
+\mbox{\Hypertarget{classPlayer_ad0a16e3921fc33a984822bd540f25e4a}\label{classPlayer_ad0a16e3921fc33a984822bd540f25e4a}} 
+bool {\bfseries init\+\_\+texture} (S\+D\+L\+\_\+\+Renderer $\ast$p\+Renderer)
+\item 
+\mbox{\Hypertarget{classPlayer_a9c986201b1c627c137f760a0beaebf0a}\label{classPlayer_a9c986201b1c627c137f760a0beaebf0a}} 
+S\+D\+L\+\_\+\+Texture $\ast$ {\bfseries get\+\_\+texture} ()
+\item 
+\mbox{\Hypertarget{classPlayer_a70e21ca98281b7d72f105f2693113d7e}\label{classPlayer_a70e21ca98281b7d72f105f2693113d7e}} 
+void {\bfseries jump} ()
+\item 
+\mbox{\Hypertarget{classPlayer_af47efc290076c0079c11bcdd5b37673d}\label{classPlayer_af47efc290076c0079c11bcdd5b37673d}} 
+void {\bfseries walk} ()
+\item 
+\mbox{\Hypertarget{classPlayer_a8af6218de14b10bb4538c937512adfd4}\label{classPlayer_a8af6218de14b10bb4538c937512adfd4}} 
+bool {\bfseries is\+\_\+jumping} ()
+\item 
+\mbox{\Hypertarget{classPlayer_a264829ab052e7818dc0575feeee2331f}\label{classPlayer_a264829ab052e7818dc0575feeee2331f}} 
+void {\bfseries set\+\_\+pos} (\hyperlink{classPosition}{Position} p\+Position)
+\item 
+\mbox{\Hypertarget{classPlayer_ab5d570eef42811790ef64f4acb88368a}\label{classPlayer_ab5d570eef42811790ef64f4acb88368a}} 
+void {\bfseries kill} ()
+\item 
+\mbox{\Hypertarget{classPlayer_a4804db8f3648dca149c35c27806d88a5}\label{classPlayer_a4804db8f3648dca149c35c27806d88a5}} 
+void {\bfseries reborn} ()
+\item 
+\mbox{\Hypertarget{classPlayer_ab1f2bf51fdf1d8930efa76223b61281e}\label{classPlayer_ab1f2bf51fdf1d8930efa76223b61281e}} 
+bool {\bfseries is\+\_\+alive} ()
+\item 
+\mbox{\Hypertarget{classPlayer_a04cd67ad282a8354b059cb66de09d4e3}\label{classPlayer_a04cd67ad282a8354b059cb66de09d4e3}} 
+void {\bfseries render} (S\+D\+L\+\_\+\+Renderer $\ast$p\+Renderer)
+\item 
+\mbox{\Hypertarget{classPlayer_a90aa8c53cd4fb7c8519200130c29f10f}\label{classPlayer_a90aa8c53cd4fb7c8519200130c29f10f}} 
+void {\bfseries move\+\_\+x} (int step)
+\item 
+\mbox{\Hypertarget{classPlayer_a075a343d57a62dde4ac39aa4ac7b5e93}\label{classPlayer_a075a343d57a62dde4ac39aa4ac7b5e93}} 
+void {\bfseries move\+\_\+y} (int step)
+\item 
+\mbox{\Hypertarget{classPlayer_ac3ccbc371e7d902970215d066278cfc6}\label{classPlayer_ac3ccbc371e7d902970215d066278cfc6}} 
+bool {\bfseries fall} (vector$<$ S\+D\+L\+\_\+\+Rect $>$ ground)
+\item 
+\mbox{\Hypertarget{classPlayer_a7831c86336c460c291c6cbe8c500b7ad}\label{classPlayer_a7831c86336c460c291c6cbe8c500b7ad}} 
+bool {\bfseries has\+\_\+intersection} (vector$<$ S\+D\+L\+\_\+\+Rect $>$ sdl\+\_\+rect\+\_\+vector)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPlayer_a4731a7e2f587c90e9f3621c90a5563dd}\label{classPlayer_a4731a7e2f587c90e9f3621c90a5563dd}} 
+static const int {\bfseries P\+O\+S\+\_\+0} = 2
+\item 
+\mbox{\Hypertarget{classPlayer_a934460fa1f4d73996e766f4c6e65f2a3}\label{classPlayer_a934460fa1f4d73996e766f4c6e65f2a3}} 
+static const int {\bfseries P\+O\+S\+\_\+1} = 1
+\item 
+\mbox{\Hypertarget{classPlayer_a0c0f5a2184f7bd931d3a9eb00ee1035f}\label{classPlayer_a0c0f5a2184f7bd931d3a9eb00ee1035f}} 
+static const int {\bfseries P\+O\+S\+\_\+\+D\+E\+AD} = 0
+\item 
+\mbox{\Hypertarget{classPlayer_a0fbf4dd67da429f6bc470e11028dcc21}\label{classPlayer_a0fbf4dd67da429f6bc470e11028dcc21}} 
+static const int {\bfseries S\+T\+E\+P\+\_\+X} = 64
+\item 
+\mbox{\Hypertarget{classPlayer_acf3757760dc2df9f8f4946b1e4d7c9d3}\label{classPlayer_acf3757760dc2df9f8f4946b1e4d7c9d3}} 
+static const int {\bfseries S\+T\+E\+P\+\_\+Y} = 64
+\item 
+\mbox{\Hypertarget{classPlayer_aece6c46027c4acc1beb0a497a3e33f3a}\label{classPlayer_aece6c46027c4acc1beb0a497a3e33f3a}} 
+static const int {\bfseries L\+E\+FT} = 0
+\item 
+\mbox{\Hypertarget{classPlayer_ade313fafeead1bcc2c07a712e8dfc18d}\label{classPlayer_ade313fafeead1bcc2c07a712e8dfc18d}} 
+static const int {\bfseries R\+I\+G\+HT} = 1
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+player.\+h\item 
+player.\+cpp\end{DoxyCompactItemize}
