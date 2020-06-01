@@ -79,7 +79,7 @@ bool GameWindow::init()
 //  Game : run ! 
 bool GameWindow::run()
 {
-	// Is it running ?-------------------------
+	// Is it running ?--
 	// Working : true
 	// Failing : false
 	is_running = init();
@@ -88,7 +88,7 @@ bool GameWindow::run()
 		return false;
 	}
 	
-	// Loading game objects-----------------------
+	// Loading game objects--
 	// Mouse
 	if(!mouse.load(renderer, base_path))
 	{
@@ -107,9 +107,8 @@ bool GameWindow::run()
 		return false;
 	}
 		
-	//----------------------------------------------
 
-	// SDL Event listener
+	// SDL Event listener--
 	SDL_Event lEvent;
 	
 	// Play 
@@ -211,13 +210,12 @@ bool GameWindow::run()
 		SDL_Delay(2000);
 	}
 	
-	// Clean game objects---------
+	// Clean game objects--
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);
 	Mix_CloseAudio();
 	TTF_Quit();
 	SDL_Quit();
-	//--------------------------
 	
 	// EXIT_SUCCESS
 	return true;
