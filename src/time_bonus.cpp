@@ -1,6 +1,10 @@
 #include "time_bonus.h"
 
-//Initialize texture
+/**
+ * init_texure
+ * Initialize texture
+ * \return boolean : init texture status
+ **/
 bool TimeBonus::init_texture(SDL_Renderer* pRenderer)
 {
 	time_bonus_texture = SDL_CreateTextureFromSurface(pRenderer, time_bonus_image);
@@ -12,7 +16,12 @@ bool TimeBonus::init_texture(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Render the texture through given renderer
+/**
+ *render texture
+ *\param renderer : Game renderer
+ *\brief Render the time bonus texture through given renderer
+ *\return void
+ **/
 void TimeBonus::render(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, time_bonus_texture, &sprite_rect, &time_bonus_rect);

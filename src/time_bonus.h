@@ -11,7 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-
+/**
+ *\class TimeBonus
+ *\brief time expansion colletible
+ **/
 class TimeBonus
 {
 	private:

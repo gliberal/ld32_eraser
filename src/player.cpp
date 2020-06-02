@@ -1,6 +1,11 @@
 #include "player.h"
 
-//Initialize texture
+/**
+ * init_texture
+ * \param pRenderer : Game renderer
+ * \brief Initialize texture
+ * \return boolean : init player texture status
+ **/
 bool Player::init_texture(SDL_Renderer* pRenderer)
 {
 	SDL_Surface* player_image = IMG_Load(player_image_path.c_str());
@@ -13,7 +18,12 @@ bool Player::init_texture(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Render the texture through given renderer
+/**
+ * render
+ * \param pRenderer : Game renderer
+ * \brief Render the texture through given renderer
+ * \return void
+ **/
 void Player::render(SDL_Renderer* pRenderer)
 {
 	if(player_direction == LEFT)
@@ -26,7 +36,12 @@ void Player::render(SDL_Renderer* pRenderer)
 	}
 }
 
-//Set player position to the given one
+/**
+ * set_pos
+ * \param pPosition : player position
+ * \brief Set player position to the given one
+ * \return void
+ **/
 void Player::set_pos(Position pPosition)
 {
 	pos = pPosition;
@@ -34,7 +49,12 @@ void Player::set_pos(Position pPosition)
 	player_rect.y = pPosition.get_y() * STEP_Y;
 }
 
-//Move on X axis with a default step of 1
+/**
+ * move_x
+ * \param step (default step is 1)
+ * \brief Move on X axis with a default step of 1
+ * \return void
+ **/
 void Player::move_x(int step=1)
 {
 	pos.set_x(pos.get_x()+step);
@@ -63,7 +83,12 @@ void Player::move_x(int step=1)
 	player_rect.x = pos.get_x() * STEP_X;
 }
 
-//PLayer fall
+/**
+ * fall
+ * \param ground : player walks on this ground 
+ * \brief PLayer fall
+ * \return boolean : player falling boolean 
+ **/
 bool Player::fall(std::vector<SDL_Rect> ground)
 {
 	//Update the rect
@@ -79,6 +104,12 @@ bool Player::fall(std::vector<SDL_Rect> ground)
 	return true;
 }
 
+/**
+ * has_intersection
+ * \param sdl_rect_vector
+ * \brief check if player rect intersects 
+ * \return boolean : player intersection boolean
+ **/
 bool Player::has_intersection(std::vector<SDL_Rect> sdl_rect_vector)
 {
 	for(auto lRect : sdl_rect_vector)
@@ -91,7 +122,12 @@ bool Player::has_intersection(std::vector<SDL_Rect> sdl_rect_vector)
 	return false;
 }
 
-//Move on Y axis with a default step of 1
+/**
+ * move_y
+ * \param step (default value is 1)
+ * \brief Move on Y axis with a default step of 1
+ * \return void
+ **/
 void Player::move_y(int step=1)
 {
 	pos.set_y(pos.get_y()+step);

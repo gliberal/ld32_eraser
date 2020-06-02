@@ -1,6 +1,11 @@
 #include "monster.h"
 
-//Initialize texture
+/**
+ * init_texture
+ * \brief Initialize texture
+ * \param pRenderer : Game renderer
+ * \return void
+ **/
 bool Monster::init_texture(SDL_Renderer* pRenderer)
 {
 	monster_texture = SDL_CreateTextureFromSurface(pRenderer, monster_image);
@@ -12,7 +17,11 @@ bool Monster::init_texture(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Render the texture through given renderer
+/**
+ * Render the texture through given renderer
+ * \param pRenderer : Game renderer 
+ * \return void
+ **/
 void Monster::render(SDL_Renderer* pRenderer)
 {
 	if(direction == RIGHT)
@@ -25,7 +34,11 @@ void Monster::render(SDL_Renderer* pRenderer)
 	}
 }
 
-//Set player position to the given one
+/**
+ * Set player position to the given one
+ * \param pPosition : Monster positionning
+ * \return void
+ **/
 void Monster::set_pos(Position pPosition)
 {
 	pos = pPosition;
@@ -34,7 +47,11 @@ void Monster::set_pos(Position pPosition)
 	monster_rect.y = pPosition.get_y() * STEP_Y;
 }
 
-//Move the monster and refresh its surface
+/**
+ * move
+ * \brief Move the monster and refresh its surface
+ * \return void
+ **/
 void Monster::move()
 {
 	int x_val{0};
@@ -79,7 +96,11 @@ void Monster::move()
 	}
 }
 
-//Destroy
+/**
+ * dispose
+ * \brief dispose/destroy monster texture
+ * \return void
+ **/
 void Monster::dispose()
 {
 	SDL_DestroyTexture(monster_texture);	

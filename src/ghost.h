@@ -11,6 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
+/**
+ * \class Ghost
+ * \brief Ghost enemy
+ **/
 class Ghost
 {
 	private:

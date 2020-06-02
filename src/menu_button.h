@@ -13,6 +13,10 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
+/**
+ * \class MenuButton
+ * \brief Game menu button
+ **/
 class MenuButton
 {
 	private:

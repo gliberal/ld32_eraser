@@ -3,6 +3,7 @@
 /**
  * init_texture
  * \param SDL_Renderer* pRenderer : Game renderer
+ * \brief Init texture for arachne enemy
  * \return boolean : Texture creation status
  * */
 bool Arachne::init_texture(SDL_Renderer* pRenderer)
@@ -24,6 +25,7 @@ bool Arachne::init_texture(SDL_Renderer* pRenderer)
 /** 
  * render
  * \param SDL_Renderer* pRenderer : Game renderer
+ * \brief Render arachne enemy
  * \return void
  **/
 void Arachne::render(SDL_Renderer* pRenderer)

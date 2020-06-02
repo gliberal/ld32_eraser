@@ -1,5 +1,10 @@
 #include "mouse_cursor.h"
 
+/**
+ * load 
+ * \brief load mouse cursor
+ * \return boolean : load mouse cursor status
+ **/
 bool MouseCursor::load(SDL_Renderer* pRenderer, std::string pPath)
 {	
 	//Initialize background texture
@@ -17,6 +22,11 @@ bool MouseCursor::load(SDL_Renderer* pRenderer, std::string pPath)
 	return true;
 }
 
+/**
+ * display 
+ * \brief display mouse cursor
+ * \return boolean : display mouse cursor status
+ **/
 void MouseCursor::display(SDL_Renderer* pRenderer)
 {
 	//Update position x/y
@@ -26,6 +36,12 @@ void MouseCursor::display(SDL_Renderer* pRenderer)
 	SDL_RenderCopy(pRenderer, mouse_texture, &mouse_rect, &mouse_pos_rect);	
 }
 
+
+/**
+ * dispose 
+ * \brief Destroy mouse cursor
+ * \return boolean : destroy mouse cursor status
+ **/
 void MouseCursor::dispose()
 {
 	//Show the sys cursor

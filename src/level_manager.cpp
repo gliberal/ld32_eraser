@@ -7,7 +7,12 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
-//Init paths
+/**
+ * init_paths
+ * \param pPath : Game paths 
+ * \brief Init paths 
+ * \return void
+ * */
 void LevelManager::init_paths(std::string pPath)
 {
 	level_base_path = pPath;
@@ -16,7 +21,13 @@ void LevelManager::init_paths(std::string pPath)
 	index_path = level_data_path + INDEX_FILENAME;
 }
 
-//Load the lvl_index file
+/**
+ * load_index
+ * \param pRenderer : Game renderer 
+ * \param pPath : Game base path
+ * \brief Load the lvl_index file
+ * \return boolean : load index status
+ **/
 bool LevelManager::load_index(SDL_Renderer* pRenderer, std::string pPath)
 {
 	init_paths(pPath);
@@ -38,7 +49,12 @@ bool LevelManager::load_index(SDL_Renderer* pRenderer, std::string pPath)
 	return true;	
 }
 
-//Display the current level
+/**
+ * display
+ * \param pRenderer : Game renderer
+ * \brief Display the current level
+ * \return boolean : display level status
+ **/
 bool LevelManager::display(SDL_Renderer* pRenderer)
 {
 	if(current_level_id > -1)
@@ -78,7 +94,12 @@ bool LevelManager::display(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Start the next level and return it
+/**
+ * prepare_next_level
+ * \param pRenderer : Game renderer
+ * \brief Start the next level and return it
+ * \return boolean : prepare next level status
+ **/
 bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 {
 	if(current_level_id > -1)
@@ -105,7 +126,13 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Display ending stats
+/**
+ * display_stats
+ * \param pRenderer : Game renderer
+ * \param pElapsedTime : Game chrono (can be used to awards player)
+ * \brief Display ending stats
+ * \return void
+ **/
 void LevelManager::display_stats(SDL_Renderer* pRenderer, int pElapsedTime)
 {
 	TTF_Font* txt_font = TTF_OpenFont((level_asset_path + "ThinPencilHandwriting.ttf").c_str(), 40);
@@ -116,7 +143,9 @@ void LevelManager::display_stats(SDL_Renderer* pRenderer, int pElapsedTime)
 	else
 	{
 		SDL_Color txt_color = {0, 0, 0};
-		std::string text = "Congratulations !\n\nYou have used " + std::to_string(level_ids.size()) + " sheets in " + std::to_string(pElapsedTime) + " seconds."; 
+		std::string text = "Congratulations !\n\nYou have used " + 
+			std::to_string(level_ids.size()) + " sheets in " + 
+			std::to_string(pElapsedTime) + " seconds."; 
 	
 		SDL_Surface* txt_image = TTF_RenderText_Blended_Wrapped(txt_font, text.c_str(), txt_color, 400);
 		SDL_Texture* txt_texture = SDL_CreateTextureFromSurface(pRenderer, txt_image);
@@ -144,7 +173,12 @@ void LevelManager::display_stats(SDL_Renderer* pRenderer, int pElapsedTime)
 	}
 }
 
-//Display an happy ending message
+/**
+ * display_happy_ending
+ * \param pRenderer : Game renderer
+ * \brief Display an happy ending message
+ * \return void
+ **/
 void LevelManager::display_happy_ending(SDL_Renderer* pRenderer)
 {
 	//Elapsed time since the first level (s)
@@ -167,7 +201,12 @@ void LevelManager::display_happy_ending(SDL_Renderer* pRenderer)
 	}
 }
 
-//Event dispatcher
+/**
+ * on_event
+ * \param pEvent : Event
+ * \brief Event dispatcher
+ * \return void
+ **/
 void LevelManager::on_event(SDL_Event* pEvent)
 {
 	if(current_level_id > -1)

@@ -11,6 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
+/**
+ *\class Arache
+ *\brief Arachne is the class that represents the arachne enemy in game
+ **/
 class Arachne
 {
 	private:

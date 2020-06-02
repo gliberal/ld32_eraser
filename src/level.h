@@ -29,6 +29,10 @@
 #include "monster.h"
 #include "time_bonus.h"
 
+/**
+ * \class Level
+ * \brief Game level 
+ **/
 class Level
 {
 	private:

@@ -1,5 +1,11 @@
 #include "menu_button.h"
 
+/**
+ * load
+ * \param pRenderer : Game renderer 
+ * \param pPath : Menu button image path
+ * \return boolean : load menu button success
+ **/
 bool MenuButton::load(SDL_Renderer* pRenderer, std::string pPath)
 {	
 	//Initialize background texture
@@ -15,11 +21,22 @@ bool MenuButton::load(SDL_Renderer* pRenderer, std::string pPath)
 	return true;
 }
 
+/**
+ * display
+ * \param pRenderer : Game renderer
+ * \brief display menu button 
+ * \return void
+ **/
 void MenuButton::display(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, bg_texture, &bg_rect, &bg_pos_rect);
 }
 
+/**
+ * dispose
+ * \brief dispose/destroy menu button
+ * \return void
+ **/
 void MenuButton::dispose()
 {
 	SDL_DestroyTexture(bg_texture);

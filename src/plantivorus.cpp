@@ -1,6 +1,10 @@
 #include "plantivorus.h"
 
-//Initialize texture
+/**
+ * init_texture
+ * \brief Initialize plantivorus texture
+ * \return boolean : init texture plantivorus status
+ **/
 bool Plantivorus::init_texture(SDL_Renderer* pRenderer)
 {
 	plantivorus_texture = SDL_CreateTextureFromSurface(pRenderer, plantivorus_image);
@@ -12,13 +16,22 @@ bool Plantivorus::init_texture(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Render the texture through given renderer
+/**
+ * render
+ * \param pRenderer : Game renderer
+ * \brief Render the texture through given renderer
+ * \return void
+ **/
 void Plantivorus::render(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, plantivorus_texture, &sprite_rect, &plantivorus_rect);
 }
 
-//Switch spikes length
+/**
+ * switch_position
+ * \brief Switch spikes length
+ * \return void
+ **/
 void Plantivorus::switch_position()
 {
 	switch(sprite_rect.x)

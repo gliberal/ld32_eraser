@@ -1,6 +1,10 @@
 #include "ghost.h"
 
-//Initialize texture
+/**
+ * init_texture
+ * \brief init ghost texture
+ * \return boolean : Init ghost texture status
+ **/
 bool Ghost::init_texture(SDL_Renderer* pRenderer)
 {
 	ghost_texture = SDL_CreateTextureFromSurface(pRenderer, ghost_image);
@@ -12,13 +16,22 @@ bool Ghost::init_texture(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Render the texture through given renderer
+/**
+ * render
+ * \param SDL_Renderer* pRenderer : Game render
+ * \brief Render the texture through given renderer
+ * \return void
+ **/
 void Ghost::render(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, ghost_texture, &sprite_rect, &ghost_rect);
 }
 
-//Switch position offset
+/**
+ * switch_position
+ * \brief Switch ghost position offset
+ * \return void
+ **/
 void Ghost::switch_position()
 {
 	if(offset_required)

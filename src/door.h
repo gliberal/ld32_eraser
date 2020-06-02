@@ -11,7 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-
+/**
+ * \class Door
+ * \brief Door game object
+ **/
 class Door
 {
 	private:

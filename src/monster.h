@@ -11,6 +11,10 @@
 
 #include <string>
 
+/**
+ * \class Monster
+ * \brief Monster enemy
+ **/
 class Monster
 {
 	private:

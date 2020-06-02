@@ -12,6 +12,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
+/**
+ * \class Player
+ * \brief Game player
+ **/
 class Player
 {
 	Position pos;

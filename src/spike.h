@@ -11,7 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-
+/**
+ * \class Spike
+ * \brief Spike game object (player must avoid it)
+ **/ 
 class Spike
 {
 	private:

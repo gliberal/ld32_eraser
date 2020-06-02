@@ -1,6 +1,10 @@
 #ifndef POSITION_H
 #define POSITION_H
 
+/**
+ * \class Position
+ * \brief A class to manage game objects position
+ **/
 class Position
 {
  	int coord_x;

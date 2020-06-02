@@ -7,7 +7,10 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
-
+/**
+ * \class LevelManager
+ * \brief Game object that handles levels 
+ **/
 class LevelManager
 {
 	private:

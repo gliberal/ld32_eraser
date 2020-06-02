@@ -11,7 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-
+/**
+ * \class Plantivorus
+ * \brief A dangerous plant (enemy)
+ **/
 class Plantivorus
 {
 	private:

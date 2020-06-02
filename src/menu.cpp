@@ -54,7 +54,7 @@ void Menu::display(SDL_Renderer* pRenderer)
 
 /**
  *dispose
- *\brief Menu disposes itself
+ *\brief dispose/destroy menu
  *\return void
  **/
 void Menu::dispose()

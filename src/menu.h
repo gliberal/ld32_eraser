@@ -12,6 +12,10 @@
 
 #include "menu_button.h"
 
+/**
+ * \class Menu
+ * \brief Game menu
+ **/
 class Menu
 {
 	private:

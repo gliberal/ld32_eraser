@@ -10,6 +10,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
+/**
+ * \class MouseCursor
+ * \brief Game mouse cursor (it helps to detect mouse actions)
+ **/
 class MouseCursor
 {
 	private:

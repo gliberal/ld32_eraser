@@ -1,7 +1,12 @@
 #include "level.h"
 #include <iostream>
 
-//Load the level
+/**
+ * load
+ * \param SDL_Rendered* 
+ * \brief Load the level
+ * \return boolean : load level status
+ **/
 bool Level::load(SDL_Renderer* pRenderer)
 {
 	//Initialize the background image	
@@ -85,7 +90,11 @@ bool Level::load(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Unload level
+/**
+ * unload level
+ * /brief unload level
+ * /return void
+ **/
 void Level::unload()
 {
 	//Destroy textures
@@ -147,7 +156,12 @@ void Level::unload()
 	is_load = false;
 }
 
-//Add rect to lvl_ground vector
+/**
+ * add_rect
+ * \param pX (int) : Position X
+ * \param pY (int) : Position Y
+ * \brief Add rect to lvl_ground vector
+ **/
 void Level::add_rect(int pX, int pY)
 {
 	SDL_Rect tmp_rect;
@@ -159,7 +173,12 @@ void Level::add_rect(int pX, int pY)
 	lvl_ground.push_back(tmp_rect);	
 }
 
-//Load the level map
+/**
+ * load_map
+ * \param pMapFilepath (std::string) : Map file path
+ * \brief load the level map
+ * \return boolean : load level status
+ **/
 bool Level::load_map(std::string pMapFilepath)
 {
 	bool has_door = false;
@@ -282,7 +301,12 @@ bool Level::load_map(std::string pMapFilepath)
 	return true;
 }
 
-//Initialize textures to be rendered
+/**
+ * init_texture
+ * \param pRenderer : Game Renderer
+ * \brief Initialize textures level to be rendered
+ * \return boolean : init level texture status
+ **/
 bool Level::init_textures(SDL_Renderer* pRenderer)
 {
 	bg_texture = SDL_CreateTextureFromSurface(pRenderer, bg_image);
@@ -379,14 +403,22 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Launch the music
+/**
+ * play_bg_music
+ * \brief Launch the music
+ * \return void
+ **/
 void Level::play_bg_music()
 {
 	Mix_PlayMusic(lvl_music, -1);
 	Mix_VolumeMusic(15);
 }
 
-//Check for collision with a given SDL_Rect
+/**
+ * check_ground_collision
+ * \brief Check for collision with a given SDL_Rect
+ * \return boolean : collision status
+ **/
 bool Level::check_ground_collision()
 {
 	for(auto lGroundRect : lvl_ground)
@@ -399,7 +431,11 @@ bool Level::check_ground_collision()
 	return false;
 }
 
-//Check for collision with timer bonuses
+/**
+ * check_time_bonus_collision
+ * \brief Check for collision with timer bonuses
+ * \return int : collision status
+ **/
 int Level::check_time_bonus_collision()
 {
 	int cpt{0};
@@ -417,7 +453,11 @@ int Level::check_time_bonus_collision()
 }
 
 
-//Check collisions with dangerous things
+/**
+ * check_danger_collision
+ * \brief Check collisions with dangerous things
+ * \return boolean : collision status
+ **/
 bool Level::check_danger_collision()
 {
 	//Check pencils
@@ -468,6 +508,11 @@ bool Level::check_danger_collision()
 	return false;
 }
 
+/**
+ * check_door_collision
+ * \brief Check if player collides with the door
+ * \return boolean : collision status
+ **/
 bool Level::check_door_collision()
 {
 	SDL_Rect* lRect = lvl_door.get_rect();
@@ -478,7 +523,11 @@ bool Level::check_door_collision()
 	return false;
 }
 
-//Refresh timer
+/**
+ * refresh_timer
+ * \param pRendered : Game renderer
+ * \return void
+ **/
 void Level::refresh_timer(SDL_Renderer* pRenderer)
 {
 	std::string current_txt = std::to_string(available_time);
@@ -502,7 +551,12 @@ void Level::refresh_timer(SDL_Renderer* pRenderer)
 	timer_pos_rect.y = 5;
 }
 
-//Display no more time picture
+/**
+ * display_no_more_time
+ * \param pRendered : Game renderer
+ * \brief Display the time's up picture
+ * \return void
+ **/
 void Level::display_no_more_time(SDL_Renderer* pRenderer)
 {
 	SDL_RenderClear(pRenderer);	
@@ -520,7 +574,12 @@ void Level::display_no_more_time(SDL_Renderer* pRenderer)
 	}
 }
 
-//Display failure message
+/**
+ * display_fail
+ * \param pRenderer : Game renderer
+ * \brief Display failure message
+ * \return void
+ **/
 void Level::display_fail(SDL_Renderer* pRenderer)
 {
 	SDL_RenderClear(pRenderer);	
@@ -538,7 +597,12 @@ void Level::display_fail(SDL_Renderer* pRenderer)
 	}
 }
 
-//Render the texture through given renderer
+/**
+ * render level
+ * \param pRenderer : Game renderer
+ * \brief Render the texture through given renderer
+ * \return boolean : level render status
+ **/
 bool Level::render(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, bg_texture, &bg_rect, &bg_rect);
@@ -689,7 +753,13 @@ bool Level::render(SDL_Renderer* pRenderer)
 	return true;
 }
 
-//Erase everything under the eraser
+/**
+ * erase_under 
+ * \param pMouseX : Mouse X position
+ * \parm pMouseY : Mouse Y position 
+ * \brief Erase everything under the eraser (erasing it!)
+ * \return boolean : erase under status
+ **/
 bool Level::erase_under(int pMouseX, int pMouseY)
 {
 	//Create a rect from the mouse coordinates
@@ -790,7 +860,12 @@ bool Level::erase_under(int pMouseX, int pMouseY)
 	return false;
 }
 
-//Handle SDL events 
+/**
+ * on_event
+ * \param pEvent : Game event 
+ * \brief Handle SDL events 
+ * \return void
+ **/
 void Level::on_event(SDL_Event* pEvent)
 {
 	switch(pEvent->type)

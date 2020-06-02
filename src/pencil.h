@@ -11,7 +11,10 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-
+/**
+ * \class Pencil
+ * \brief Pencil game object
+ **/
 class Pencil
 {
 	private:

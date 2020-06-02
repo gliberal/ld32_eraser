@@ -6,6 +6,10 @@
 #include "mouse_cursor.h"
 #include "level_manager.h"
 
+/**
+ * \class GameWindow
+ * \brief Game window
+ **/
 class GameWindow
 {
 	private:
